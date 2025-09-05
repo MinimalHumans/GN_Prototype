@@ -1084,6 +1084,18 @@ script = ExtResource("2_36wlk")
 parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_22lcg"), SubResource("Resource_lgd78")])
 metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
 
+[node name="planet_sirius_major2" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_0ua5g")
+offset_left = 2400.0
+offset_top = 600.0
+offset_right = 2912.0
+offset_bottom = 1112.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_sirius_major2"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_22lcg"), SubResource("Resource_lgd78")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
 [node name="planet_rigel_beta" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_22lcg")
 offset_left = 600.0
