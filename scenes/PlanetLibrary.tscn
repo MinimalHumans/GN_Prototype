@@ -949,13 +949,13 @@ script = ExtResource("2_36wlk")
 parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_q4pxu"), SubResource("Resource_36wlk"), SubResource("Resource_6444o")])
 metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
 
-[node name="planet_mars" type="ColorRect" parent="."]
+[node name="planet_1010" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_dja01")
 offset_left = 1200.0
 offset_right = 1712.0
 offset_bottom = 512.0
 
-[node name="PlanetAnimationSet" type="Node" parent="planet_mars"]
+[node name="PlanetAnimationSet" type="Node" parent="planet_1010"]
 script = ExtResource("2_36wlk")
 parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_q4pxu"), SubResource("Resource_36wlk"), SubResource("Resource_6444o")])
 metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
