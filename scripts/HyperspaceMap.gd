@@ -41,6 +41,12 @@ var current_system_color = Color(1.0, 1.0, 0.0, 1.0)
 var selected_system_color = Color(1.0, 0.5, 0.0, 1.0)
 var unavailable_color = Color(0.3, 0.3, 0.3, 1.0)
 
+# Delivery visualization
+var delivery_destinations: Dictionary = {}  # system_id -> delivery_count
+var delivery_ring_color = Color(0.0, 1.0, 1.0, 0.8)  # Cyan ring
+var delivery_icon_color = Color(0.0, 1.0, 1.0, 1.0)  # Cyan icon
+
+
 func _ready():
 	load_systems_from_database()
 	current_system_id = UniverseManager.current_system_id
@@ -193,6 +199,24 @@ func calculate_coordinate_bounds():
 	
 	print("Coordinate bounds: X(", min_x, " to ", max_x, ") Y(", min_y, " to ", max_y, ")")
 
+# Add this method to load delivery information
+func load_delivery_destinations():
+	"""Load systems that have active delivery missions"""
+	delivery_destinations.clear()
+	
+	var active_missions = PlayerData.get_active_missions()
+	
+	for mission in active_missions:
+		var destination_system_id = mission.get("destination_system", -1)
+		if destination_system_id != -1:
+			if delivery_destinations.has(destination_system_id):
+				delivery_destinations[destination_system_id] += 1
+			else:
+				delivery_destinations[destination_system_id] = 1
+	
+	print("Loaded delivery destinations: ", delivery_destinations)
+
+
 func setup_initial_view():
 	"""Set up initial view to show all systems"""
 	if systems_data.is_empty():
@@ -305,9 +329,77 @@ func draw_systems():
 		if system_data.is_hub:
 			map_canvas.draw_arc(screen_pos, final_radius + 2, 0, TAU, 32, Color.WHITE, 2.0)
 		
+		# NEW: Draw delivery indicators
+		draw_delivery_indicators(screen_pos, final_radius, system_id)
+		
+		
 		# Draw system name if zoomed in enough
 		if zoom_level > 0.5:
 			draw_system_label(screen_pos, system_data.name, final_radius)
+
+# Add this new method for drawing delivery indicators:
+func draw_delivery_indicators(screen_pos: Vector2, system_radius: float, system_id: int):
+	"""Draw delivery indicators for systems with active missions"""
+	if not delivery_destinations.has(system_id):
+		return
+	
+	var delivery_count = delivery_destinations[system_id]
+	var indicator_radius = system_radius + 6
+	
+	# Draw pulsing delivery ring
+	var pulse_factor = 1.0 + 0.3 * sin(Time.get_ticks_msec() / 1000.0 * 3.0)
+	var ring_radius = indicator_radius * pulse_factor
+	var ring_width = max(2.0, 3.0 * zoom_level)
+	
+	# Draw the delivery ring
+	map_canvas.draw_arc(screen_pos, ring_radius, 0, TAU, 32, delivery_ring_color, ring_width)
+	
+	# Draw cargo icon if zoomed in enough
+	if zoom_level > 0.3:
+		draw_delivery_icon(screen_pos, system_radius, delivery_count)
+
+func draw_delivery_icon(screen_pos: Vector2, system_radius: float, delivery_count: int):
+	"""Draw a small cargo/delivery icon"""
+	var icon_size = max(8.0, 12.0 * zoom_level)
+	var icon_offset = Vector2(system_radius + 15, -system_radius - 5)
+	var icon_pos = screen_pos + icon_offset
+	
+	# Draw a simple cargo box icon
+	var box_size = Vector2(icon_size, icon_size * 0.7)
+	var box_rect = Rect2(icon_pos - box_size/2, box_size)
+	
+	# Box outline
+	map_canvas.draw_rect(box_rect, delivery_icon_color, false, 2.0)
+	
+	# Box fill (semi-transparent)
+	var fill_color = delivery_icon_color
+	fill_color.a = 0.3
+	map_canvas.draw_rect(box_rect, fill_color, true)
+	
+	# Draw delivery count if multiple
+	if delivery_count > 1:
+		draw_delivery_count_badge(icon_pos, delivery_count, icon_size)
+
+func draw_delivery_count_badge(icon_pos: Vector2, count: int, icon_size: float):
+	"""Draw a small badge showing number of deliveries"""
+	var badge_radius = icon_size * 0.4
+	var badge_pos = icon_pos + Vector2(icon_size * 0.4, -icon_size * 0.4)
+	
+	# Badge background circle
+	map_canvas.draw_circle(badge_pos, badge_radius, Color(1.0, 0.5, 0.0, 0.9))  # Orange background
+	map_canvas.draw_arc(badge_pos, badge_radius, 0, TAU, 16, Color.WHITE, 1.0)    # White border
+	
+	# Badge number text
+	var font = ThemeDB.fallback_font
+	var font_size = max(8, int(icon_size * 0.6))
+	var count_text = str(count)
+	var text_size = font.get_string_size(count_text, HORIZONTAL_ALIGNMENT_CENTER, -1, font_size)
+	var text_pos = badge_pos - text_size / 2
+	
+	# Draw number
+	map_canvas.draw_string(font, text_pos, count_text, HORIZONTAL_ALIGNMENT_CENTER, -1, font_size, Color.WHITE)
+
+
 
 func draw_system_label(screen_pos: Vector2, system_name: String, radius: float):
 	"""Draw system name label"""
@@ -326,15 +418,31 @@ func draw_system_label(screen_pos: Vector2, system_name: String, radius: float):
 	map_canvas.draw_string(font, text_pos, system_name, HORIZONTAL_ALIGNMENT_CENTER, -1, font_size, Color.WHITE)
 
 func draw_instructions(canvas_size: Vector2):
-	"""Draw control instructions"""
+	"""Draw control instructions with delivery legend"""
 	var font = ThemeDB.fallback_font
 	var instruction_text = "Mouse Wheel: Zoom  |  Middle Click + Drag: Pan  |  Left Click: Select System"
 	var instruction_size = font.get_string_size(instruction_text, HORIZONTAL_ALIGNMENT_CENTER, -1, 12)
-	var instruction_pos = Vector2((canvas_size.x - instruction_size.x) / 2, canvas_size.y - 15)
+	var instruction_pos = Vector2((canvas_size.x - instruction_size.x) / 2, canvas_size.y - 30)
 	
+	# Draw main instructions
 	map_canvas.draw_string(font, instruction_pos + Vector2(1, 1), instruction_text, HORIZONTAL_ALIGNMENT_CENTER, -1, 12, Color.BLACK)
 	map_canvas.draw_string(font, instruction_pos, instruction_text, HORIZONTAL_ALIGNMENT_CENTER, -1, 12, Color.YELLOW)
+	
+	# Draw delivery legend
+	var legend_text = "Cyan Ring = Active Deliveries"
+	var legend_size = font.get_string_size(legend_text, HORIZONTAL_ALIGNMENT_CENTER, -1, 10)
+	var legend_pos = Vector2((canvas_size.x - legend_size.x) / 2, canvas_size.y - 15)
+	
+	map_canvas.draw_string(font, legend_pos + Vector2(1, 1), legend_text, HORIZONTAL_ALIGNMENT_CENTER, -1, 10, Color.BLACK)
+	map_canvas.draw_string(font, legend_pos, legend_text, HORIZONTAL_ALIGNMENT_CENTER, -1, 10, delivery_ring_color)
 
+# Add method to refresh delivery data when missions change
+func refresh_delivery_indicators():
+	"""Call this method when missions are completed or accepted"""
+	load_delivery_destinations()
+	if map_canvas:
+		map_canvas.queue_redraw()
+		
 func get_system_color(system_data: Dictionary) -> Color:
 	"""Get system color from map_color property or default based on system type"""
 	var color_str = system_data.get("map_color", "#FFFFFF")
@@ -480,7 +588,7 @@ func update_ui():
 	if selected_system_id == -1:
 		info_label.text = "Select a destination system"
 		jump_button.disabled = true
-		flavor_text = "Navigate the galaxy using the hyperspace network.\n\nUse mouse wheel to zoom and middle-click + drag to pan around the map."
+		flavor_text = "Navigate the galaxy using the hyperspace network.\n\nSystems with cyan rings have active delivery missions.\n\nUse mouse wheel to zoom and middle-click + drag to pan around the map."
 	elif selected_system_id == current_system_id:
 		var system_name = get_system_name(selected_system_id)
 		info_label.text = "Current location: " + system_name
@@ -491,11 +599,25 @@ func update_ui():
 		info_label.text = "Jump to: " + system_name
 		jump_button.disabled = false
 		flavor_text = get_system_flavor(selected_system_id)
+		
+		# Add delivery information if applicable
+		if delivery_destinations.has(selected_system_id):
+			var delivery_count = delivery_destinations[selected_system_id]
+			var delivery_text = "\n\n📦 DELIVERIES AVAILABLE\n"
+			delivery_text += "You have %d active delivery mission%s to this system." % [delivery_count, "s" if delivery_count > 1 else ""]
+			flavor_text += delivery_text
 	else:
 		var system_name = get_system_name(selected_system_id)
 		info_label.text = system_name + " - Not accessible"
 		jump_button.disabled = true
 		flavor_text = get_system_flavor(selected_system_id)
+		
+		# Show delivery info even if not accessible
+		if delivery_destinations.has(selected_system_id):
+			var delivery_count = delivery_destinations[selected_system_id]
+			var delivery_text = "\n\n📦 DELIVERIES WAITING\n"
+			delivery_text += "You have %d delivery mission%s to this system, but it's not directly accessible. Find a route through connected systems." % [delivery_count, "s" if delivery_count > 1 else ""]
+			flavor_text += delivery_text
 	
 	if flavor_label:
 		flavor_label.text = flavor_text
@@ -527,6 +649,7 @@ func can_travel_to(system_id: int) -> bool:
 func show_map():
 	"""Show the hyperspace map"""
 	load_systems_from_database()
+	load_delivery_destinations()  
 	current_system_id = UniverseManager.current_system_id
 	selected_system_id = -1
 	
