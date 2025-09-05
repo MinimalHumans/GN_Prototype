@@ -62,6 +62,11 @@ func _ready():
 	setup_initial_view()
 	update_ui()
 
+func _process(_delta):
+	"""Continuously update delivery ring animation when map is visible"""
+	if visible and not delivery_destinations.is_empty() and map_canvas:
+		map_canvas.queue_redraw()
+
 func setup_map_canvas():
 	"""Set up the zoomable/pannable map canvas in the left panel"""
 	if not left_panel:
