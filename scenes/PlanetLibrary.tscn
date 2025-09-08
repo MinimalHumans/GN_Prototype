@@ -499,7 +499,7 @@ shader_parameter/variation_tint = Color(0.2, 0.5, 0.8, 1)
 script = ExtResource("3_6444o")
 parameter_name = "uv_offset_x"
 animation_type = "linear"
-rate = 1.0
+rate = 0.1
 amplitude = 1.0
 offset_x = 0.0
 offset_y = 0.0
@@ -2512,14 +2512,14 @@ script = ExtResource("2_36wlk")
 parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_q4pxu"), SubResource("Resource_36wlk"), SubResource("Resource_6444o")])
 metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
 
-[node name="redPlanet_1000" type="ColorRect" parent="."]
+[node name="planet_red" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_gm5lm")
 offset_left = 2400.0
 offset_top = 1800.0
 offset_right = 2912.0
 offset_bottom = 2312.0
 
-[node name="PlanetAnimationSet" type="Node" parent="redPlanet_1000"]
+[node name="PlanetAnimationSet" type="Node" parent="planet_red"]
 script = ExtResource("2_36wlk")
 parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_4q660")])
 metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
@@ -2757,8 +2757,3 @@ offset_bottom = 1712.0
 script = ExtResource("2_36wlk")
 parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_dcso2"), SubResource("Resource_wyyg7")])
 metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
-
-[node name="ColorRect" type="ColorRect" parent="."]
-offset_right = 40.0
-offset_bottom = 40.0
-color = Color(0.290852, 0.280931, 0.400594, 1)
