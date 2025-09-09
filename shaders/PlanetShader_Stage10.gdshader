@@ -124,7 +124,7 @@ uniform float ice_cap_softness : hint_range(0.01, 1) = 0.05;
 
 // Desert zones
 uniform float desert_latitude : hint_range(0.1, 0.8) = 0.4;
-uniform float desert_width : hint_range(0.05, 0.3) = 0.15;
+uniform float desert_width : hint_range(0, 3) = 0.15;
 uniform float desert_intensity : hint_range(0.0, 5) = 0.7;
 
 // === MATERIAL COLORS ===
