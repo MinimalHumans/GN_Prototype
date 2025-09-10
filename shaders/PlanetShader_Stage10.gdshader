@@ -106,7 +106,7 @@ uniform float cloud_offset_y : hint_range(-2.0, 2.0) = 0.0;
 
 // === GEOGRAPHIC FEATURES ===
 // River system
-uniform float river_scale : hint_range(2.0, 15.0) = 0.5;
+uniform float river_scale : hint_range(0.1, 15.0) = 0.5;
 uniform float river_strength : hint_range(0.0, 3) = 0.05;
 uniform float river_width : hint_range(0.01, 2) = 0.05;
 uniform float river_octaves : hint_range(1, 20) = 2;
