@@ -117,6 +117,9 @@ func assign_archetype_to_npc(npc_ship):
 	"""Assign a specific archetype to the NPC based on current system weights"""
 	# Wait for NPC to be fully ready
 	await get_tree().process_frame
+	if npc_ship == null:
+		print("⚠️ npc_ship is null")
+		return
 	
 	var ai_component = npc_ship.get_node_or_null("Phase1CombatAI")
 	if not ai_component:

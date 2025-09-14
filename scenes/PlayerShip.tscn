@@ -17,12 +17,6 @@ linear_damp = 0.1
 angular_damp = 1.0
 script = ExtResource("1_iig01")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_hkka0")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_hkka0")
-
 [node name="EngineParticles" type="CPUParticles2D" parent="."]
 position = Vector2(-1, 22)
 emitting = false
@@ -37,6 +31,12 @@ initial_velocity_max = 100.0
 color = Color(1, 1, 0.286275, 1)
 hue_variation_min = 0.55
 hue_variation_max = 0.91
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_hkka0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_hkka0")
 
 [node name="InteractionArea" type="Area2D" parent="."]
 
