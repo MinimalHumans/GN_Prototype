@@ -1,4 +1,4 @@
-[gd_scene load_steps=161 format=3 uid="uid://ckqawt5f0td3o"]
+[gd_scene load_steps=176 format=3 uid="uid://ckqawt5f0td3o"]
 
 [ext_resource type="Script" uid="uid://ba44yhnqqhxc8" path="res://scripts/PlanetLibraryViewer.gd" id="1_6444o"]
 [ext_resource type="Shader" uid="uid://du62yo5yqkelo" path="res://shaders/PlanetShader_Stage10.gdshader" id="2_17jbo"]
@@ -12365,6 +12365,1356 @@ shader_parameter/core_size = 0.995
 shader_parameter/color_variation = 0.765
 shader_parameter/variation_tint = Color(0.726537, 0.244454, 0.413405, 1)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ygv0b"]
+shader = ExtResource("2_17jbo")
+shader_parameter/planet_radius = 0.453
+shader_parameter/edge_softness = 0.005
+shader_parameter/uv_offset_x = -0.14
+shader_parameter/uv_offset_y = 0.0200001
+shader_parameter/continent_seed = 208.01
+shader_parameter/terrain_seed = 147.793
+shader_parameter/river_seed = 456.0
+shader_parameter/detail_seed = 789.0
+shader_parameter/cloud_seed = 999.0
+shader_parameter/output_mode = 0
+shader_parameter/normal_map_intensity = 0.1
+shader_parameter/sphere_strength = -1.221
+shader_parameter/light_direction = Vector2(-0.19, 0.12)
+shader_parameter/light_intensity = 0.957
+shader_parameter/light_color = Color(0.2403, 0.89, 0.879172, 1)
+shader_parameter/shadow_tint = Color(0.5, 0.6, 0.8, 1)
+shader_parameter/shadow_tint_strength = 0.811
+shader_parameter/ambient_light = 0.565
+shader_parameter/ambient_color = Color(0.652697, 0.222804, 0.249973, 1)
+shader_parameter/rim_light_intensity = 2.508
+shader_parameter/rim_light_color = Color(0.222, 0.4992, 0.6, 1)
+shader_parameter/rim_light_falloff = 4.028
+shader_parameter/rim_light_crescent_power = 14.392
+shader_parameter/rim_light_crescent_offset = 0.214
+shader_parameter/rim_light_glow_intensity = 3.827
+shader_parameter/rim_light_glow_radius = 0.051
+shader_parameter/rim_light_glow_enabled = false
+shader_parameter/continent_scale = 0.648
+shader_parameter/continent_threshold = 0.498
+shader_parameter/continent_sharpness = 0.531
+shader_parameter/continent_octaves = 6.247
+shader_parameter/continent_persistence = 0.989
+shader_parameter/ocean_depth = 0.508
+shader_parameter/warp_strength = 4.488
+shader_parameter/warp_scale = 8.011
+shader_parameter/terrain_scale = 36.205
+shader_parameter/terrain_strength = 1.25
+shader_parameter/terrain_octaves = 6.0
+shader_parameter/terrain_persistence = 6.887
+shader_parameter/terrain_softness = 0.35
+shader_parameter/detail_scale = 13.705
+shader_parameter/detail_strength = 0.363
+shader_parameter/detail_octaves = 13.042
+shader_parameter/mountain_threshold = 0.587
+shader_parameter/highland_threshold = 0.508
+shader_parameter/cloud_coverage = 0.456
+shader_parameter/cloud_scale = 3.077
+shader_parameter/cloud_stretch_x = 0.391
+shader_parameter/cloud_stretch_y = 0.46
+shader_parameter/cloud_octaves = 16.87
+shader_parameter/cloud_persistence = 0.755
+shader_parameter/cloud_density = 1.151
+shader_parameter/cloud_sharpness = 0.205
+shader_parameter/cloud_color = Color(0.741823, 0.786652, 0.941449, 1)
+shader_parameter/cloud_shadow_color = Color(0.561224, 0.493696, 0.696091, 1)
+shader_parameter/cloud_opacity = 0.813
+shader_parameter/cloud_shadow_strength = 0.757
+shader_parameter/cloud_offset_x = 0.545
+shader_parameter/cloud_offset_y = 0.0
+shader_parameter/river_scale = 7.473
+shader_parameter/river_strength = 0.842
+shader_parameter/river_width = 0.448
+shader_parameter/river_octaves = 6.815
+shader_parameter/river_persistence = 0.49
+shader_parameter/river_glow_enabled = false
+shader_parameter/river_glow_intensity = 1.583
+shader_parameter/river_glow_radius = 0.049
+shader_parameter/river_glow_color = Color(0.19133, 0.270745, 0.544954, 1)
+shader_parameter/ice_cap_size = 0.147
+shader_parameter/ice_cap_softness = 0.417
+shader_parameter/desert_latitude = 0.527
+shader_parameter/desert_width = 0.0
+shader_parameter/desert_intensity = 1.502
+shader_parameter/deep_ocean_color = Color(0.437982, 0.169581, 0.157181, 1)
+shader_parameter/shallow_water_color = Color(0.487956, 0.454472, 0.679267, 1)
+shader_parameter/river_color = Color(0.385693, 0.561692, 0.942972, 1)
+shader_parameter/mountain_color = Color(0.239417, 0.235, 0.5, 1)
+shader_parameter/highland_color = Color(0.145, 0.281083, 0.5, 1)
+shader_parameter/lowland_color = Color(0.285, 0.50975, 0.75, 1)
+shader_parameter/desert_color = Color(0.416, 0.8, 0.7872, 1)
+shader_parameter/ice_color = Color(0.626521, 0.557325, 0.898112, 1)
+shader_parameter/coastal_blend = 0.03
+shader_parameter/beach_color = Color(0.7, 0.6, 0.4, 1)
+shader_parameter/core_color = Color(0.472411, 0.927253, 0.811727, 1)
+shader_parameter/core_size = 2.638
+shader_parameter/color_variation = 1.543
+shader_parameter/variation_tint = Color(0.786657, 0.423905, 0.191692, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_iwod2"]
+shader = ExtResource("2_17jbo")
+shader_parameter/planet_radius = 0.45
+shader_parameter/edge_softness = 0.0
+shader_parameter/uv_offset_x = -0.297
+shader_parameter/uv_offset_y = 0.706
+shader_parameter/continent_seed = 374.155
+shader_parameter/terrain_seed = 596.589
+shader_parameter/river_seed = 371.195
+shader_parameter/detail_seed = 587.587
+shader_parameter/cloud_seed = 999.0
+shader_parameter/output_mode = 0
+shader_parameter/normal_map_intensity = 0.036
+shader_parameter/sphere_strength = -0.543
+shader_parameter/light_direction = Vector2(-0.095, -0.625)
+shader_parameter/light_intensity = 1.339
+shader_parameter/light_color = Color(0.686001, 0.376747, 0.119081, 1)
+shader_parameter/shadow_tint = Color(0.259369, 0.350322, 0.538048, 1)
+shader_parameter/shadow_tint_strength = 0.284
+shader_parameter/ambient_light = 0.586
+shader_parameter/ambient_color = Color(0.440181, 0.292406, 0.074763, 1)
+shader_parameter/rim_light_intensity = 2.756
+shader_parameter/rim_light_color = Color(0.705937, 0.343031, 0.236658, 1)
+shader_parameter/rim_light_falloff = 3.315
+shader_parameter/rim_light_crescent_power = 5.215
+shader_parameter/rim_light_crescent_offset = 0.2
+shader_parameter/rim_light_glow_intensity = 1.522
+shader_parameter/rim_light_glow_radius = 0.191
+shader_parameter/rim_light_glow_enabled = true
+shader_parameter/continent_scale = 8.261
+shader_parameter/continent_threshold = 0.41
+shader_parameter/continent_sharpness = 0.316
+shader_parameter/continent_octaves = 6.685
+shader_parameter/continent_persistence = 0.747
+shader_parameter/ocean_depth = 0.763
+shader_parameter/warp_strength = -1.626
+shader_parameter/warp_scale = -0.494999
+shader_parameter/terrain_scale = 6.115
+shader_parameter/terrain_strength = 0.779
+shader_parameter/terrain_octaves = 5.92
+shader_parameter/terrain_persistence = 0.823
+shader_parameter/terrain_softness = 0.233
+shader_parameter/detail_scale = 4.183
+shader_parameter/detail_strength = 0.198
+shader_parameter/detail_octaves = 7.291
+shader_parameter/mountain_threshold = 0.748
+shader_parameter/highland_threshold = 0.341
+shader_parameter/cloud_coverage = 0.488
+shader_parameter/cloud_scale = 4.419
+shader_parameter/cloud_stretch_x = 1.0
+shader_parameter/cloud_stretch_y = 1.0
+shader_parameter/cloud_octaves = 8.707
+shader_parameter/cloud_persistence = 0.43
+shader_parameter/cloud_density = 0.325
+shader_parameter/cloud_sharpness = 0.09
+shader_parameter/cloud_color = Color(0.878407, 0.5322, 0.730165, 1)
+shader_parameter/cloud_shadow_color = Color(0.7, 0.7, 0.8, 1)
+shader_parameter/cloud_opacity = 0.347
+shader_parameter/cloud_shadow_strength = 0.346
+shader_parameter/cloud_offset_x = 0.0
+shader_parameter/cloud_offset_y = 0.0
+shader_parameter/river_scale = 5.155
+shader_parameter/river_strength = 0.476
+shader_parameter/river_width = 0.303
+shader_parameter/river_octaves = 7.007
+shader_parameter/river_persistence = 0.455
+shader_parameter/river_glow_enabled = true
+shader_parameter/river_glow_intensity = 1.45
+shader_parameter/river_glow_radius = 0.0
+shader_parameter/river_glow_color = Color(0.372025, 0.49405, 0.832409, 1)
+shader_parameter/ice_cap_size = 0.0
+shader_parameter/ice_cap_softness = 0.304
+shader_parameter/desert_latitude = 0.626
+shader_parameter/desert_width = 1.717
+shader_parameter/desert_intensity = 0.828
+shader_parameter/deep_ocean_color = Color(0.0779288, 0.358411, 0.496349, 1)
+shader_parameter/shallow_water_color = Color(0.74599, 0.293811, 0.670234, 1)
+shader_parameter/river_color = Color(0.787368, 0.532911, 0.442299, 1)
+shader_parameter/mountain_color = Color(0.152737, 0.367023, 0.561983, 1)
+shader_parameter/highland_color = Color(0.49745, 0.409967, 0.802673, 1)
+shader_parameter/lowland_color = Color(0.0828392, 0.0162416, 0.00274175, 1)
+shader_parameter/desert_color = Color(0.365217, 0.570661, 0.830227, 1)
+shader_parameter/ice_color = Color(0.829673, 0.3686, 0.97, 1)
+shader_parameter/coastal_blend = 0.03
+shader_parameter/beach_color = Color(0.564335, 0.251097, 0.634679, 1)
+shader_parameter/core_color = Color(0.563947, 0.593978, 0.752699, 1)
+shader_parameter/core_size = 0.0
+shader_parameter/color_variation = 0.64
+shader_parameter/variation_tint = Color(0.715603, 0.160823, 0.18497, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s2k4k"]
+shader = ExtResource("2_17jbo")
+shader_parameter/planet_radius = 0.45
+shader_parameter/edge_softness = 0.0
+shader_parameter/uv_offset_x = 0.0
+shader_parameter/uv_offset_y = 0.0
+shader_parameter/continent_seed = 303.484
+shader_parameter/terrain_seed = 380.95
+shader_parameter/river_seed = 590.276
+shader_parameter/detail_seed = 449.777
+shader_parameter/cloud_seed = 634.587
+shader_parameter/output_mode = 0
+shader_parameter/normal_map_intensity = 0.1
+shader_parameter/sphere_strength = -0.897
+shader_parameter/light_direction = Vector2(0.56, -0.605)
+shader_parameter/light_intensity = 1.0
+shader_parameter/light_color = Color(1, 0.7825, 0.13, 1)
+shader_parameter/shadow_tint = Color(0.312, 0.474667, 0.8, 1)
+shader_parameter/shadow_tint_strength = 0.611
+shader_parameter/ambient_light = 0.184
+shader_parameter/ambient_color = Color(0.4, 0.6, 1, 1)
+shader_parameter/rim_light_intensity = 0.742
+shader_parameter/rim_light_color = Color(0.819932, 0.637075, 0.422615, 1)
+shader_parameter/rim_light_falloff = 5.463
+shader_parameter/rim_light_crescent_power = 1.242
+shader_parameter/rim_light_crescent_offset = 0.144
+shader_parameter/rim_light_glow_intensity = 1.53
+shader_parameter/rim_light_glow_radius = 0.093
+shader_parameter/rim_light_glow_enabled = true
+shader_parameter/continent_scale = 9.348
+shader_parameter/continent_threshold = 0.486
+shader_parameter/continent_sharpness = 0.129
+shader_parameter/continent_octaves = 6.29
+shader_parameter/continent_persistence = 0.597
+shader_parameter/ocean_depth = 0.63
+shader_parameter/warp_strength = 0.0790002
+shader_parameter/warp_scale = 3.163
+shader_parameter/terrain_scale = 5.0
+shader_parameter/terrain_strength = 0.909
+shader_parameter/terrain_octaves = 3.47
+shader_parameter/terrain_persistence = 3.524
+shader_parameter/terrain_softness = 0.1
+shader_parameter/detail_scale = 8.0
+shader_parameter/detail_strength = 0.2
+shader_parameter/detail_octaves = 2.0
+shader_parameter/mountain_threshold = 0.7
+shader_parameter/highland_threshold = 0.4
+shader_parameter/cloud_coverage = 0.0
+shader_parameter/cloud_scale = 4.0
+shader_parameter/cloud_stretch_x = 1.0
+shader_parameter/cloud_stretch_y = 1.0
+shader_parameter/cloud_octaves = 3.0
+shader_parameter/cloud_persistence = 0.5
+shader_parameter/cloud_density = 0.8
+shader_parameter/cloud_sharpness = 0.1
+shader_parameter/cloud_color = Color(1, 1, 1, 1)
+shader_parameter/cloud_shadow_color = Color(0.7, 0.7, 0.8, 1)
+shader_parameter/cloud_opacity = 0.7
+shader_parameter/cloud_shadow_strength = 0.3
+shader_parameter/cloud_offset_x = 0.0
+shader_parameter/cloud_offset_y = 0.0
+shader_parameter/river_scale = 12.519
+shader_parameter/river_strength = 0.898
+shader_parameter/river_width = 0.395
+shader_parameter/river_octaves = 3.074
+shader_parameter/river_persistence = 0.5
+shader_parameter/river_glow_enabled = true
+shader_parameter/river_glow_intensity = 0.329
+shader_parameter/river_glow_radius = 0.02
+shader_parameter/river_glow_color = Color(0.213927, 0.316091, 0.299117, 1)
+shader_parameter/ice_cap_size = 0.02
+shader_parameter/ice_cap_softness = 0.476
+shader_parameter/desert_latitude = 0.523
+shader_parameter/desert_width = 0.0
+shader_parameter/desert_intensity = 1.99
+shader_parameter/deep_ocean_color = Color(0.37, 0.450167, 0.5, 1)
+shader_parameter/shallow_water_color = Color(0.674133, 0.6162, 0.79, 1)
+shader_parameter/river_color = Color(0.205944, 0.370392, 0.311757, 1)
+shader_parameter/mountain_color = Color(0.555265, 0.380777, 0.142328, 1)
+shader_parameter/highland_color = Color(0.567196, 0.258601, 0.192217, 1)
+shader_parameter/lowland_color = Color(0.535176, 0.266324, 0.193195, 1)
+shader_parameter/desert_color = Color(0.865024, 0.560854, 0.29276, 1)
+shader_parameter/ice_color = Color(0.9, 0.95, 1, 1)
+shader_parameter/coastal_blend = 0.043
+shader_parameter/beach_color = Color(0.658234, 0.604513, 0.537719, 1)
+shader_parameter/core_color = Color(0.362637, 0.733017, 0.717289, 1)
+shader_parameter/core_size = 1.118
+shader_parameter/color_variation = 0.624
+shader_parameter/variation_tint = Color(0.2, 0.5, 0.8, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_q2fhr"]
+shader = ExtResource("2_17jbo")
+shader_parameter/planet_radius = 0.45
+shader_parameter/edge_softness = 0.0
+shader_parameter/uv_offset_x = 0.0
+shader_parameter/uv_offset_y = 0.0
+shader_parameter/continent_seed = 360.021
+shader_parameter/terrain_seed = 698.971
+shader_parameter/river_seed = 802.289
+shader_parameter/detail_seed = 364.971
+shader_parameter/cloud_seed = 705.458
+shader_parameter/output_mode = 0
+shader_parameter/normal_map_intensity = 0.1
+shader_parameter/sphere_strength = -1.674
+shader_parameter/light_direction = Vector2(3.195, -0.86)
+shader_parameter/light_intensity = 1.812
+shader_parameter/light_color = Color(0.866346, 0.487851, 0.390715, 1)
+shader_parameter/shadow_tint = Color(0.849614, 0.465761, 0.545759, 1)
+shader_parameter/shadow_tint_strength = 0.702
+shader_parameter/ambient_light = 0.173
+shader_parameter/ambient_color = Color(0.771872, 0.560757, 0.423769, 1)
+shader_parameter/rim_light_intensity = 1.555
+shader_parameter/rim_light_color = Color(0.780005, 0.815628, 0.497231, 1)
+shader_parameter/rim_light_falloff = 6.382
+shader_parameter/rim_light_crescent_power = 1.242
+shader_parameter/rim_light_crescent_offset = -0.619
+shader_parameter/rim_light_glow_intensity = 1.53
+shader_parameter/rim_light_glow_radius = 0.093
+shader_parameter/rim_light_glow_enabled = true
+shader_parameter/continent_scale = 8.29
+shader_parameter/continent_threshold = 0.412
+shader_parameter/continent_sharpness = 0.164
+shader_parameter/continent_octaves = 6.29
+shader_parameter/continent_persistence = 0.532
+shader_parameter/ocean_depth = 0.619
+shader_parameter/warp_strength = 0.15
+shader_parameter/warp_scale = 3.163
+shader_parameter/terrain_scale = 5.0
+shader_parameter/terrain_strength = 0.58
+shader_parameter/terrain_octaves = 4.544
+shader_parameter/terrain_persistence = 4.93
+shader_parameter/terrain_softness = 0.091
+shader_parameter/detail_scale = 15.251
+shader_parameter/detail_strength = 0.41
+shader_parameter/detail_octaves = 13.703
+shader_parameter/mountain_threshold = 0.513
+shader_parameter/highland_threshold = 0.362
+shader_parameter/cloud_coverage = 0.454
+shader_parameter/cloud_scale = 8.341
+shader_parameter/cloud_stretch_x = 1.0
+shader_parameter/cloud_stretch_y = 1.0
+shader_parameter/cloud_octaves = 3.0
+shader_parameter/cloud_persistence = 0.5
+shader_parameter/cloud_density = 0.934
+shader_parameter/cloud_sharpness = 0.1
+shader_parameter/cloud_color = Color(0.223924, 0.524061, 0.61002, 1)
+shader_parameter/cloud_shadow_color = Color(0.7, 0.7, 0.8, 1)
+shader_parameter/cloud_opacity = 0.838
+shader_parameter/cloud_shadow_strength = 0.3
+shader_parameter/cloud_offset_x = 0.0
+shader_parameter/cloud_offset_y = 0.0
+shader_parameter/river_scale = 12.519
+shader_parameter/river_strength = 0.623
+shader_parameter/river_width = 0.254
+shader_parameter/river_octaves = 8.714
+shader_parameter/river_persistence = 0.5
+shader_parameter/river_glow_enabled = false
+shader_parameter/river_glow_intensity = 0.576
+shader_parameter/river_glow_radius = 0.051
+shader_parameter/river_glow_color = Color(0.184575, 0.526016, 0.586729, 1)
+shader_parameter/ice_cap_size = 0.05
+shader_parameter/ice_cap_softness = 0.333
+shader_parameter/desert_latitude = 0.387
+shader_parameter/desert_width = 0.196
+shader_parameter/desert_intensity = 2.025
+shader_parameter/deep_ocean_color = Color(0.289598, 0.307585, 0.697053, 1)
+shader_parameter/shallow_water_color = Color(0.271986, 0.510344, 0.430394, 1)
+shader_parameter/river_color = Color(0.243126, 0.492691, 0.607036, 1)
+shader_parameter/mountain_color = Color(0.3243, 0.69, 0.647335, 1)
+shader_parameter/highland_color = Color(0.2405, 0.65, 0.520325, 1)
+shader_parameter/lowland_color = Color(0.203209, 0.417701, 0.368227, 1)
+shader_parameter/desert_color = Color(0.405218, 0.632289, 0.555739, 1)
+shader_parameter/ice_color = Color(0.9, 0.95, 1, 1)
+shader_parameter/coastal_blend = 0.043
+shader_parameter/beach_color = Color(0.658234, 0.604513, 0.537719, 1)
+shader_parameter/core_color = Color(0.362637, 0.733017, 0.717289, 1)
+shader_parameter/core_size = 0.853
+shader_parameter/color_variation = 0.271
+shader_parameter/variation_tint = Color(0.2, 0.5, 0.8, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jhbqu"]
+shader = ExtResource("2_17jbo")
+shader_parameter/planet_radius = 0.45
+shader_parameter/edge_softness = 0.0
+shader_parameter/uv_offset_x = -0.0989999
+shader_parameter/uv_offset_y = 0.0
+shader_parameter/continent_seed = 371.102
+shader_parameter/terrain_seed = 402.151
+shader_parameter/river_seed = 540.481
+shader_parameter/detail_seed = 591.12
+shader_parameter/cloud_seed = 535.848
+shader_parameter/output_mode = 0
+shader_parameter/normal_map_intensity = 0.1
+shader_parameter/sphere_strength = -1.286
+shader_parameter/light_direction = Vector2(0.605, -0.17)
+shader_parameter/light_intensity = 2.148
+shader_parameter/light_color = Color(0.33605, 0.722763, 0.70885, 1)
+shader_parameter/shadow_tint = Color(0.5, 0.6, 0.8, 1)
+shader_parameter/shadow_tint_strength = 0.348
+shader_parameter/ambient_light = 0.459
+shader_parameter/ambient_color = Color(0.580341, 0.623143, 0.63121, 1)
+shader_parameter/rim_light_intensity = 0.883
+shader_parameter/rim_light_color = Color(0.5655, 0.717454, 0.562685, 1)
+shader_parameter/rim_light_falloff = 3.025
+shader_parameter/rim_light_crescent_power = 1.242
+shader_parameter/rim_light_crescent_offset = 0.144
+shader_parameter/rim_light_glow_intensity = 0.541
+shader_parameter/rim_light_glow_radius = 0.132
+shader_parameter/rim_light_glow_enabled = true
+shader_parameter/continent_scale = 5.646
+shader_parameter/continent_threshold = 0.456
+shader_parameter/continent_sharpness = 0.365
+shader_parameter/continent_octaves = 8.0
+shader_parameter/continent_persistence = 0.892
+shader_parameter/ocean_depth = 0.63
+shader_parameter/warp_strength = -0.309
+shader_parameter/warp_scale = 3.163
+shader_parameter/terrain_scale = 4.471
+shader_parameter/terrain_strength = 1.079
+shader_parameter/terrain_octaves = 5.417
+shader_parameter/terrain_persistence = 3.524
+shader_parameter/terrain_softness = 0.1
+shader_parameter/detail_scale = 8.0
+shader_parameter/detail_strength = 0.35
+shader_parameter/detail_octaves = 2.0
+shader_parameter/mountain_threshold = 0.7
+shader_parameter/highland_threshold = 0.4
+shader_parameter/cloud_coverage = 0.534
+shader_parameter/cloud_scale = 4.0
+shader_parameter/cloud_stretch_x = 1.0
+shader_parameter/cloud_stretch_y = 1.0
+shader_parameter/cloud_octaves = 8.975
+shader_parameter/cloud_persistence = 0.69
+shader_parameter/cloud_density = 1.047
+shader_parameter/cloud_sharpness = 0.14
+shader_parameter/cloud_color = Color(0.268042, 0.529217, 0.50777, 1)
+shader_parameter/cloud_shadow_color = Color(0.0342671, 0.0329569, 0.314339, 1)
+shader_parameter/cloud_opacity = 0.993
+shader_parameter/cloud_shadow_strength = 0.597
+shader_parameter/cloud_offset_x = 0.353
+shader_parameter/cloud_offset_y = 0.0
+shader_parameter/river_scale = 12.519
+shader_parameter/river_strength = 0.188
+shader_parameter/river_width = 0.577
+shader_parameter/river_octaves = 11.467
+shader_parameter/river_persistence = 0.614
+shader_parameter/river_glow_enabled = true
+shader_parameter/river_glow_intensity = 0.701
+shader_parameter/river_glow_radius = 0.039
+shader_parameter/river_glow_color = Color(0.276229, 0.60518, 0.588169, 1)
+shader_parameter/ice_cap_size = 0.045
+shader_parameter/ice_cap_softness = 0.658
+shader_parameter/desert_latitude = 0.31
+shader_parameter/desert_width = 0.43
+shader_parameter/desert_intensity = 1.018
+shader_parameter/deep_ocean_color = Color(0.100897, 0.293474, 0.282529, 1)
+shader_parameter/shallow_water_color = Color(0.145538, 0.350883, 0.340082, 1)
+shader_parameter/river_color = Color(0.428497, 0.230905, 0.511287, 1)
+shader_parameter/mountain_color = Color(0.3243, 0.69, 0.647335, 1)
+shader_parameter/highland_color = Color(0.2405, 0.65, 0.520325, 1)
+shader_parameter/lowland_color = Color(0.203209, 0.417701, 0.368227, 1)
+shader_parameter/desert_color = Color(0.486671, 0.320356, 0.209661, 1)
+shader_parameter/ice_color = Color(0.15341, 0.437916, 0.340577, 1)
+shader_parameter/coastal_blend = 0.043
+shader_parameter/beach_color = Color(0.658234, 0.604513, 0.537719, 1)
+shader_parameter/core_color = Color(0.362637, 0.733017, 0.717289, 1)
+shader_parameter/core_size = 1.401
+shader_parameter/color_variation = 0.977
+shader_parameter/variation_tint = Color(0.639359, 0.42229, 0.0955861, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xteml"]
+shader = ExtResource("2_17jbo")
+shader_parameter/planet_radius = 0.45
+shader_parameter/edge_softness = 0.0
+shader_parameter/uv_offset_x = -0.765
+shader_parameter/uv_offset_y = 0.0
+shader_parameter/continent_seed = 621.847
+shader_parameter/terrain_seed = 282.011
+shader_parameter/river_seed = 618.544
+shader_parameter/detail_seed = 672.392
+shader_parameter/cloud_seed = 998.825
+shader_parameter/output_mode = 0
+shader_parameter/normal_map_intensity = 0.1
+shader_parameter/sphere_strength = -1.35
+shader_parameter/light_direction = Vector2(0.22, -0.45)
+shader_parameter/light_intensity = 2.072
+shader_parameter/light_color = Color(0.549124, 0.584015, 0.704096, 1)
+shader_parameter/shadow_tint = Color(0.701853, 0.720534, 0.66382, 1)
+shader_parameter/shadow_tint_strength = 0.677
+shader_parameter/ambient_light = 0.487
+shader_parameter/ambient_color = Color(0.738627, 0.564415, 0.549241, 1)
+shader_parameter/rim_light_intensity = 1.601
+shader_parameter/rim_light_color = Color(0.306285, 0.651261, 0.58056, 1)
+shader_parameter/rim_light_falloff = 2.281
+shader_parameter/rim_light_crescent_power = 5.989
+shader_parameter/rim_light_crescent_offset = 0.0920001
+shader_parameter/rim_light_glow_intensity = 0.831
+shader_parameter/rim_light_glow_radius = 0.128
+shader_parameter/rim_light_glow_enabled = true
+shader_parameter/continent_scale = 4.058
+shader_parameter/continent_threshold = 0.511
+shader_parameter/continent_sharpness = 0.331
+shader_parameter/continent_octaves = 6.278
+shader_parameter/continent_persistence = 0.787
+shader_parameter/ocean_depth = 0.884
+shader_parameter/warp_strength = 0.596
+shader_parameter/warp_scale = -0.960999
+shader_parameter/terrain_scale = 22.504
+shader_parameter/terrain_strength = 2.409
+shader_parameter/terrain_octaves = 10.712
+shader_parameter/terrain_persistence = 2.258
+shader_parameter/terrain_softness = 0.443
+shader_parameter/detail_scale = 11.67
+shader_parameter/detail_strength = 0.239
+shader_parameter/detail_octaves = 4.459
+shader_parameter/mountain_threshold = 0.768
+shader_parameter/highland_threshold = 0.578
+shader_parameter/cloud_coverage = 0.42
+shader_parameter/cloud_scale = 2.208
+shader_parameter/cloud_stretch_x = 1.0
+shader_parameter/cloud_stretch_y = 1.0
+shader_parameter/cloud_octaves = 14.145
+shader_parameter/cloud_persistence = 0.72
+shader_parameter/cloud_density = 1.323
+shader_parameter/cloud_sharpness = 0.293
+shader_parameter/cloud_color = Color(0.198345, 0.735045, 0.789772, 1)
+shader_parameter/cloud_shadow_color = Color(0.0822477, 0.222124, 0.48118, 1)
+shader_parameter/cloud_opacity = 0.0
+shader_parameter/cloud_shadow_strength = 0.0
+shader_parameter/cloud_offset_x = 0.212
+shader_parameter/cloud_offset_y = 0.0
+shader_parameter/river_scale = 5.296
+shader_parameter/river_strength = 1.356
+shader_parameter/river_width = 0.348
+shader_parameter/river_octaves = 11.519
+shader_parameter/river_persistence = 0.697
+shader_parameter/river_glow_enabled = false
+shader_parameter/river_glow_intensity = 1.0
+shader_parameter/river_glow_radius = 0.02
+shader_parameter/river_glow_color = Color(0.4, 0.8, 1, 1)
+shader_parameter/ice_cap_size = 0.0
+shader_parameter/ice_cap_softness = 0.384
+shader_parameter/desert_latitude = 0.19
+shader_parameter/desert_width = 0.3
+shader_parameter/desert_intensity = 0.0
+shader_parameter/deep_ocean_color = Color(0.183357, 0.294901, 0.195257, 1)
+shader_parameter/shallow_water_color = Color(0.320771, 0.509162, 0.593364, 1)
+shader_parameter/river_color = Color(0.18699, 0.434648, 0.328464, 1)
+shader_parameter/mountain_color = Color(0.5, 0.4, 0.3, 1)
+shader_parameter/highland_color = Color(0.178957, 0.28315, 0.502427, 1)
+shader_parameter/lowland_color = Color(0.259504, 0.131143, 0.331117, 1)
+shader_parameter/desert_color = Color(0.682329, 0.416033, 0.328464, 1)
+shader_parameter/ice_color = Color(0.906461, 0.749651, 0.354392, 1)
+shader_parameter/coastal_blend = 0.03
+shader_parameter/beach_color = Color(0.7, 0.6, 0.4, 1)
+shader_parameter/core_color = Color(0.852928, 0.669407, 0.280054, 1)
+shader_parameter/core_size = 0.571
+shader_parameter/color_variation = 1.754
+shader_parameter/variation_tint = Color(0.57, 0.4446, 0.45714, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_o3yr6"]
+shader = ExtResource("2_17jbo")
+shader_parameter/planet_radius = 0.45
+shader_parameter/edge_softness = 0.0
+shader_parameter/uv_offset_x = 0.56
+shader_parameter/uv_offset_y = 0.0
+shader_parameter/continent_seed = 289.619
+shader_parameter/terrain_seed = 72.367
+shader_parameter/river_seed = 456.0
+shader_parameter/detail_seed = 789.0
+shader_parameter/cloud_seed = 999.0
+shader_parameter/output_mode = 0
+shader_parameter/normal_map_intensity = 0.1
+shader_parameter/sphere_strength = -3.226
+shader_parameter/light_direction = Vector2(-0.02, -0.27)
+shader_parameter/light_intensity = 1.23
+shader_parameter/light_color = Color(0.863117, 0.881789, 0.945874, 1)
+shader_parameter/shadow_tint = Color(0.5, 0.6, 0.8, 1)
+shader_parameter/shadow_tint_strength = 0.306
+shader_parameter/ambient_light = 0.333
+shader_parameter/ambient_color = Color(0.180805, 0.475589, 0.760059, 1)
+shader_parameter/rim_light_intensity = 2.859
+shader_parameter/rim_light_color = Color(0.850199, 0.288548, 0.1559, 1)
+shader_parameter/rim_light_falloff = 2.479
+shader_parameter/rim_light_crescent_power = 7.777
+shader_parameter/rim_light_crescent_offset = -0.142
+shader_parameter/rim_light_glow_intensity = 1.509
+shader_parameter/rim_light_glow_radius = 0.108
+shader_parameter/rim_light_glow_enabled = true
+shader_parameter/continent_scale = 3.529
+shader_parameter/continent_threshold = 0.459
+shader_parameter/continent_sharpness = 0.328
+shader_parameter/continent_octaves = 7.929
+shader_parameter/continent_persistence = 0.581
+shader_parameter/ocean_depth = 0.974
+shader_parameter/warp_strength = 0.106
+shader_parameter/warp_scale = -3.198
+shader_parameter/terrain_scale = 32.785
+shader_parameter/terrain_strength = 1.2
+shader_parameter/terrain_octaves = 10.922
+shader_parameter/terrain_persistence = 1.084
+shader_parameter/terrain_softness = 0.072
+shader_parameter/detail_scale = 8.7
+shader_parameter/detail_strength = 0.262
+shader_parameter/detail_octaves = 8.784
+shader_parameter/mountain_threshold = 0.616
+shader_parameter/highland_threshold = 0.511
+shader_parameter/cloud_coverage = 0.503
+shader_parameter/cloud_scale = 4.034
+shader_parameter/cloud_stretch_x = 0.82
+shader_parameter/cloud_stretch_y = 1.0
+shader_parameter/cloud_octaves = 5.535
+shader_parameter/cloud_persistence = 0.663
+shader_parameter/cloud_density = 1.258
+shader_parameter/cloud_sharpness = 0.259
+shader_parameter/cloud_color = Color(0.653228, 0.366768, 0.161606, 1)
+shader_parameter/cloud_shadow_color = Color(0.7, 0.7, 0.8, 1)
+shader_parameter/cloud_opacity = 1.0
+shader_parameter/cloud_shadow_strength = 0.3
+shader_parameter/cloud_offset_x = -0.0169999
+shader_parameter/cloud_offset_y = 0.0
+shader_parameter/river_scale = 13.903
+shader_parameter/river_strength = 0.774
+shader_parameter/river_width = 0.444
+shader_parameter/river_octaves = 17.88
+shader_parameter/river_persistence = 0.599
+shader_parameter/river_glow_enabled = false
+shader_parameter/river_glow_intensity = 0.615
+shader_parameter/river_glow_radius = 0.033
+shader_parameter/river_glow_color = Color(0.676337, 0.681246, 0.677513, 1)
+shader_parameter/ice_cap_size = 0.158
+shader_parameter/ice_cap_softness = 0.273
+shader_parameter/desert_latitude = 0.492
+shader_parameter/desert_width = 0.0
+shader_parameter/desert_intensity = 1.989
+shader_parameter/deep_ocean_color = Color(0.571364, 0.221837, 0.0661792, 1)
+shader_parameter/shallow_water_color = Color(0.729793, 0.391367, 0.188835, 1)
+shader_parameter/river_color = Color(0.674756, 0.415514, 0.133694, 1)
+shader_parameter/mountain_color = Color(0.5, 0.4, 0.3, 1)
+shader_parameter/highland_color = Color(0.247475, 0.326642, 0.67121, 1)
+shader_parameter/lowland_color = Color(0.26886, 0.421759, 0.739588, 1)
+shader_parameter/desert_color = Color(0.572312, 0.645759, 0.760815, 1)
+shader_parameter/ice_color = Color(0.92289, 0.531997, 0.468334, 1)
+shader_parameter/coastal_blend = 0.036
+shader_parameter/beach_color = Color(0.7, 0.6, 0.4, 1)
+shader_parameter/core_color = Color(0.540344, 0.615197, 0.854238, 1)
+shader_parameter/core_size = 2.008
+shader_parameter/color_variation = 2.014
+shader_parameter/variation_tint = Color(0.933132, 0.848728, 0.754511, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u1uss"]
+shader = ExtResource("2_17jbo")
+shader_parameter/planet_radius = 0.45
+shader_parameter/edge_softness = 0.0
+shader_parameter/uv_offset_x = 0.776
+shader_parameter/uv_offset_y = 0.0
+shader_parameter/continent_seed = 427.591
+shader_parameter/terrain_seed = 490.491
+shader_parameter/river_seed = 639.746
+shader_parameter/detail_seed = 789.0
+shader_parameter/cloud_seed = 999.0
+shader_parameter/output_mode = 0
+shader_parameter/normal_map_intensity = 0.1
+shader_parameter/sphere_strength = -2.516
+shader_parameter/light_direction = Vector2(1.5, -0.26)
+shader_parameter/light_intensity = 1.401
+shader_parameter/light_color = Color(0.93, 0.3534, 0.93, 1)
+shader_parameter/shadow_tint = Color(0.5, 0.6, 0.8, 1)
+shader_parameter/shadow_tint_strength = 0.645
+shader_parameter/ambient_light = 0.147
+shader_parameter/ambient_color = Color(0.4, 0.6, 1, 1)
+shader_parameter/rim_light_intensity = 0.965
+shader_parameter/rim_light_color = Color(0.154131, 0.70262, 0.771095, 1)
+shader_parameter/rim_light_falloff = 0.621
+shader_parameter/rim_light_crescent_power = 2.825
+shader_parameter/rim_light_crescent_offset = -0.333
+shader_parameter/rim_light_glow_intensity = 0.902
+shader_parameter/rim_light_glow_radius = 0.1
+shader_parameter/rim_light_glow_enabled = true
+shader_parameter/continent_scale = 3.176
+shader_parameter/continent_threshold = 0.466
+shader_parameter/continent_sharpness = 0.502
+shader_parameter/continent_octaves = 7.49
+shader_parameter/continent_persistence = 0.604
+shader_parameter/ocean_depth = 0.742
+shader_parameter/warp_strength = 0.283
+shader_parameter/warp_scale = -2.091
+shader_parameter/terrain_scale = 19.33
+shader_parameter/terrain_strength = 1.18
+shader_parameter/terrain_octaves = 8.588
+shader_parameter/terrain_persistence = 6.477
+shader_parameter/terrain_softness = 0.185
+shader_parameter/detail_scale = 11.797
+shader_parameter/detail_strength = 0.188
+shader_parameter/detail_octaves = 2.0
+shader_parameter/mountain_threshold = 0.69
+shader_parameter/highland_threshold = 0.542
+shader_parameter/cloud_coverage = 0.512
+shader_parameter/cloud_scale = 3.173
+shader_parameter/cloud_stretch_x = 1.0
+shader_parameter/cloud_stretch_y = 1.0
+shader_parameter/cloud_octaves = 7.834
+shader_parameter/cloud_persistence = 0.695
+shader_parameter/cloud_density = 0.708
+shader_parameter/cloud_sharpness = 0.104
+shader_parameter/cloud_color = Color(0.704926, 0.967406, 0.935895, 1)
+shader_parameter/cloud_shadow_color = Color(0.446513, 0.444279, 0.56943, 1)
+shader_parameter/cloud_opacity = 0.274
+shader_parameter/cloud_shadow_strength = 0.0
+shader_parameter/cloud_offset_x = 0.0
+shader_parameter/cloud_offset_y = 0.0
+shader_parameter/river_scale = 7.834
+shader_parameter/river_strength = 1.059
+shader_parameter/river_width = 0.587
+shader_parameter/river_octaves = 13.063
+shader_parameter/river_persistence = 0.697
+shader_parameter/river_glow_enabled = false
+shader_parameter/river_glow_intensity = 1.0
+shader_parameter/river_glow_radius = 0.02
+shader_parameter/river_glow_color = Color(0.4, 0.8, 1, 1)
+shader_parameter/ice_cap_size = 0.176
+shader_parameter/ice_cap_softness = 0.426
+shader_parameter/desert_latitude = 0.19
+shader_parameter/desert_width = 0.321
+shader_parameter/desert_intensity = 1.875
+shader_parameter/deep_ocean_color = Color(0.252318, 0.373514, 0.280183, 1)
+shader_parameter/shallow_water_color = Color(0.371567, 0.71, 0.3195, 1)
+shader_parameter/river_color = Color(0.394258, 0.500165, 0.298284, 1)
+shader_parameter/mountain_color = Color(0.356684, 0.311148, 0.291306, 1)
+shader_parameter/highland_color = Color(0.612779, 0.35382, 0.359687, 1)
+shader_parameter/lowland_color = Color(0.162055, 0.549342, 0.733514, 1)
+shader_parameter/desert_color = Color(0.432104, 0.693692, 0.789117, 1)
+shader_parameter/ice_color = Color(0.636804, 0.796927, 0.884964, 1)
+shader_parameter/coastal_blend = 0.03
+shader_parameter/beach_color = Color(0.7, 0.6, 0.4, 1)
+shader_parameter/core_color = Color(0.816537, 0.822823, 0.903058, 1)
+shader_parameter/core_size = 1.03
+shader_parameter/color_variation = 1.013
+shader_parameter/variation_tint = Color(0.2, 0.5, 0.8, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wxf26"]
+shader = ExtResource("2_17jbo")
+shader_parameter/planet_radius = 0.45
+shader_parameter/edge_softness = 0.0
+shader_parameter/uv_offset_x = 0.0
+shader_parameter/uv_offset_y = 0.0
+shader_parameter/continent_seed = 446.884
+shader_parameter/terrain_seed = 232.876
+shader_parameter/river_seed = 643.104
+shader_parameter/detail_seed = 651.191
+shader_parameter/cloud_seed = 998.605
+shader_parameter/output_mode = 0
+shader_parameter/normal_map_intensity = 0.1
+shader_parameter/sphere_strength = -0.19
+shader_parameter/light_direction = Vector2(-0.73, -0.215)
+shader_parameter/light_intensity = 0.474
+shader_parameter/light_color = Color(0.907063, 0.466904, 0.257544, 1)
+shader_parameter/shadow_tint = Color(0.62565, 0.159774, 0.370286, 1)
+shader_parameter/shadow_tint_strength = 0.423
+shader_parameter/ambient_light = 0.449
+shader_parameter/ambient_color = Color(0.427747, 0.658423, 0.692377, 1)
+shader_parameter/rim_light_intensity = 1.312
+shader_parameter/rim_light_color = Color(0.684394, 0.522729, 0.148133, 1)
+shader_parameter/rim_light_falloff = 0.615
+shader_parameter/rim_light_crescent_power = 6.591
+shader_parameter/rim_light_crescent_offset = -0.197
+shader_parameter/rim_light_glow_intensity = 2.266
+shader_parameter/rim_light_glow_radius = 0.066
+shader_parameter/rim_light_glow_enabled = false
+shader_parameter/continent_scale = 32.786
+shader_parameter/continent_threshold = 0.44
+shader_parameter/continent_sharpness = 0.256
+shader_parameter/continent_octaves = 6.413
+shader_parameter/continent_persistence = 0.636
+shader_parameter/ocean_depth = 0.439
+shader_parameter/warp_strength = 2.375e-07
+shader_parameter/warp_scale = 5.0
+shader_parameter/terrain_scale = 6.684
+shader_parameter/terrain_strength = 0.75
+shader_parameter/terrain_octaves = 3.0
+shader_parameter/terrain_persistence = 1.203
+shader_parameter/terrain_softness = 0.1
+shader_parameter/detail_scale = 8.0
+shader_parameter/detail_strength = 0.2
+shader_parameter/detail_octaves = 2.0
+shader_parameter/mountain_threshold = 0.436
+shader_parameter/highland_threshold = 0.319
+shader_parameter/cloud_coverage = 0.298
+shader_parameter/cloud_scale = 10.683
+shader_parameter/cloud_stretch_x = 0.1
+shader_parameter/cloud_stretch_y = 1.692
+shader_parameter/cloud_octaves = 5.887
+shader_parameter/cloud_persistence = 0.7
+shader_parameter/cloud_density = 1.415
+shader_parameter/cloud_sharpness = 0.389
+shader_parameter/cloud_color = Color(0.114148, 0.6404, 0.679756, 1)
+shader_parameter/cloud_shadow_color = Color(0.163289, 0.16167, 0.226189, 1)
+shader_parameter/cloud_opacity = 0.82
+shader_parameter/cloud_shadow_strength = 0.784
+shader_parameter/cloud_offset_x = -0.41
+shader_parameter/cloud_offset_y = 0.0
+shader_parameter/river_scale = 1.947
+shader_parameter/river_strength = 1.334
+shader_parameter/river_width = 0.33
+shader_parameter/river_octaves = 9.559
+shader_parameter/river_persistence = 0.723
+shader_parameter/river_glow_enabled = false
+shader_parameter/river_glow_intensity = 0.1
+shader_parameter/river_glow_radius = 0.025
+shader_parameter/river_glow_color = Color(0.509426, 0.357247, 0.349714, 1)
+shader_parameter/ice_cap_size = 0.0
+shader_parameter/ice_cap_softness = 0.246
+shader_parameter/desert_latitude = 0.8
+shader_parameter/desert_width = 0.213
+shader_parameter/desert_intensity = 1.902
+shader_parameter/deep_ocean_color = Color(0.256909, 0.568591, 0.65826, 1)
+shader_parameter/shallow_water_color = Color(0.219688, 0.540081, 0.702675, 1)
+shader_parameter/river_color = Color(0.375317, 0.588469, 0.432046, 1)
+shader_parameter/mountain_color = Color(0.403814, 0.444045, 0.260814, 1)
+shader_parameter/highland_color = Color(0.485828, 0.508258, 0.416256, 1)
+shader_parameter/lowland_color = Color(0.386399, 0.538417, 0.577506, 1)
+shader_parameter/desert_color = Color(0.75703, 0.621284, 0.321283, 1)
+shader_parameter/ice_color = Color(0, 0.449878, 0.748157, 1)
+shader_parameter/coastal_blend = 0.03
+shader_parameter/beach_color = Color(0.7, 0.6, 0.4, 1)
+shader_parameter/core_color = Color(1, 0.8, 0.3, 1)
+shader_parameter/core_size = 0.477
+shader_parameter/color_variation = 0.989
+shader_parameter/variation_tint = Color(0.680809, 0.404056, 0.339177, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2pu1t"]
+shader = ExtResource("2_17jbo")
+shader_parameter/planet_radius = 0.45
+shader_parameter/edge_softness = 0.0
+shader_parameter/uv_offset_x = -0.17
+shader_parameter/uv_offset_y = 0.169
+shader_parameter/continent_seed = 342.354
+shader_parameter/terrain_seed = 497.558
+shader_parameter/river_seed = 470.134
+shader_parameter/detail_seed = 576.916
+shader_parameter/cloud_seed = 695.113
+shader_parameter/output_mode = 0
+shader_parameter/normal_map_intensity = 0.1
+shader_parameter/sphere_strength = -1.25
+shader_parameter/light_direction = Vector2(3.265, -0.48)
+shader_parameter/light_intensity = 1.0
+shader_parameter/light_color = Color(0.88, 0.88, 0.88, 1)
+shader_parameter/shadow_tint = Color(0.5, 0.6, 0.8, 1)
+shader_parameter/shadow_tint_strength = 0.804
+shader_parameter/ambient_light = 0.286
+shader_parameter/ambient_color = Color(0.3819, 0.578768, 0.67, 1)
+shader_parameter/rim_light_intensity = 1.378
+shader_parameter/rim_light_color = Color(0.876611, 0.589102, 0.660017, 1)
+shader_parameter/rim_light_falloff = 2.148
+shader_parameter/rim_light_crescent_power = 12.141
+shader_parameter/rim_light_crescent_offset = -0.092
+shader_parameter/rim_light_glow_intensity = 1.042
+shader_parameter/rim_light_glow_radius = 0.163
+shader_parameter/rim_light_glow_enabled = true
+shader_parameter/continent_scale = 23.643
+shader_parameter/continent_threshold = 0.355
+shader_parameter/continent_sharpness = 0.315
+shader_parameter/continent_octaves = 5.048
+shader_parameter/continent_persistence = 0.807
+shader_parameter/ocean_depth = 0.48
+shader_parameter/warp_strength = 2.375e-07
+shader_parameter/warp_scale = 5.0
+shader_parameter/terrain_scale = 3.947
+shader_parameter/terrain_strength = 0.727
+shader_parameter/terrain_octaves = 8.087
+shader_parameter/terrain_persistence = 0.97
+shader_parameter/terrain_softness = 0.098
+shader_parameter/detail_scale = 14.304
+shader_parameter/detail_strength = 0.282
+shader_parameter/detail_octaves = 10.317
+shader_parameter/mountain_threshold = 0.505
+shader_parameter/highland_threshold = 0.366
+shader_parameter/cloud_coverage = 0.523
+shader_parameter/cloud_scale = 3.095
+shader_parameter/cloud_stretch_x = 2.406
+shader_parameter/cloud_stretch_y = 1.822
+shader_parameter/cloud_octaves = 8.572
+shader_parameter/cloud_persistence = 0.523
+shader_parameter/cloud_density = 0.344
+shader_parameter/cloud_sharpness = 0.116
+shader_parameter/cloud_color = Color(0.67, 0.67, 0.67, 1)
+shader_parameter/cloud_shadow_color = Color(0.34, 0.292627, 0.2754, 1)
+shader_parameter/cloud_opacity = 1.0
+shader_parameter/cloud_shadow_strength = 0.764
+shader_parameter/cloud_offset_x = 0.0
+shader_parameter/cloud_offset_y = 0.0
+shader_parameter/river_scale = 0.5
+shader_parameter/river_strength = 0.0
+shader_parameter/river_width = 0.01
+shader_parameter/river_octaves = 1.0
+shader_parameter/river_persistence = 0.5
+shader_parameter/river_glow_enabled = false
+shader_parameter/river_glow_intensity = 1.0
+shader_parameter/river_glow_radius = 0.02
+shader_parameter/river_glow_color = Color(0.85, 0.95, 1, 1)
+shader_parameter/ice_cap_size = 0.02
+shader_parameter/ice_cap_softness = 0.22
+shader_parameter/desert_latitude = 0.526
+shader_parameter/desert_width = 0.116
+shader_parameter/desert_intensity = 0.126
+shader_parameter/deep_ocean_color = Color(0.219741, 0.39446, 0.552021, 1)
+shader_parameter/shallow_water_color = Color(0.397152, 0.457792, 0.630285, 1)
+shader_parameter/river_color = Color(0.3, 0.5, 0.7, 1)
+shader_parameter/mountain_color = Color(0.875034, 0.611266, 0.620797, 1)
+shader_parameter/highland_color = Color(0.376524, 0.395806, 0.278305, 1)
+shader_parameter/lowland_color = Color(0.45, 0.3873, 0.351, 1)
+shader_parameter/desert_color = Color(0.797321, 0.396105, 0.342014, 1)
+shader_parameter/ice_color = Color(0.99, 0.82368, 0.7524, 1)
+shader_parameter/coastal_blend = 0.03
+shader_parameter/beach_color = Color(0.7, 0.6, 0.4, 1)
+shader_parameter/core_color = Color(1, 0.8, 0.3, 1)
+shader_parameter/core_size = 0.0
+shader_parameter/color_variation = 0.2
+shader_parameter/variation_tint = Color(0.2, 0.5, 0.8, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yjkws"]
+shader = ExtResource("2_17jbo")
+shader_parameter/planet_radius = 0.45
+shader_parameter/edge_softness = 0.0
+shader_parameter/uv_offset_x = 0.0
+shader_parameter/uv_offset_y = 0.0
+shader_parameter/continent_seed = 183.343
+shader_parameter/terrain_seed = 370.037
+shader_parameter/river_seed = 653.88
+shader_parameter/detail_seed = 576.986
+shader_parameter/cloud_seed = 769.318
+shader_parameter/output_mode = 0
+shader_parameter/normal_map_intensity = 0.1
+shader_parameter/sphere_strength = -1.91
+shader_parameter/light_direction = Vector2(0.165, -0.445)
+shader_parameter/light_intensity = 1.169
+shader_parameter/light_color = Color(0.986833, 1, 0.21, 1)
+shader_parameter/shadow_tint = Color(0.5, 0.6, 0.8, 1)
+shader_parameter/shadow_tint_strength = 0.2
+shader_parameter/ambient_light = 0.252
+shader_parameter/ambient_color = Color(0.696477, 0.338788, 0.54874, 1)
+shader_parameter/rim_light_intensity = 1.77
+shader_parameter/rim_light_color = Color(0.801855, 0.567283, 0.650008, 1)
+shader_parameter/rim_light_falloff = 3.484
+shader_parameter/rim_light_crescent_power = 3.773
+shader_parameter/rim_light_crescent_offset = -0.422
+shader_parameter/rim_light_glow_intensity = 1.601
+shader_parameter/rim_light_glow_radius = 0.1
+shader_parameter/rim_light_glow_enabled = true
+shader_parameter/continent_scale = 6.706
+shader_parameter/continent_threshold = 0.359
+shader_parameter/continent_sharpness = 0.625
+shader_parameter/continent_octaves = 8.0
+shader_parameter/continent_persistence = 0.591
+shader_parameter/ocean_depth = 0.354
+shader_parameter/warp_strength = 0.15
+shader_parameter/warp_scale = 5.0
+shader_parameter/terrain_scale = 15.106
+shader_parameter/terrain_strength = 1.257
+shader_parameter/terrain_octaves = 3.241
+shader_parameter/terrain_persistence = 8.225
+shader_parameter/terrain_softness = 0.102
+shader_parameter/detail_scale = 6.861
+shader_parameter/detail_strength = 0.236
+shader_parameter/detail_octaves = 2.0
+shader_parameter/mountain_threshold = 0.513
+shader_parameter/highland_threshold = 0.304
+shader_parameter/cloud_coverage = 0.45
+shader_parameter/cloud_scale = 5.06
+shader_parameter/cloud_stretch_x = 0.861
+shader_parameter/cloud_stretch_y = 1.0
+shader_parameter/cloud_octaves = 6.022
+shader_parameter/cloud_persistence = 0.762
+shader_parameter/cloud_density = 0.58
+shader_parameter/cloud_sharpness = 0.129
+shader_parameter/cloud_color = Color(0.877267, 0.940476, 0.898376, 1)
+shader_parameter/cloud_shadow_color = Color(0.477363, 0.587707, 0.484212, 1)
+shader_parameter/cloud_opacity = 0.703
+shader_parameter/cloud_shadow_strength = 0.674
+shader_parameter/cloud_offset_x = 0.452
+shader_parameter/cloud_offset_y = 0.0
+shader_parameter/river_scale = 8.752
+shader_parameter/river_strength = 2.123
+shader_parameter/river_width = 0.119
+shader_parameter/river_octaves = 20.0
+shader_parameter/river_persistence = 0.5
+shader_parameter/river_glow_enabled = true
+shader_parameter/river_glow_intensity = 0.02
+shader_parameter/river_glow_radius = 0.007
+shader_parameter/river_glow_color = Color(0.739861, 0.287717, 0.518705, 1)
+shader_parameter/ice_cap_size = 0.079
+shader_parameter/ice_cap_softness = 0.447
+shader_parameter/desert_latitude = 0.1
+shader_parameter/desert_width = 0.549
+shader_parameter/desert_intensity = 0.0
+shader_parameter/deep_ocean_color = Color(0.123008, 0.370559, 0.337483, 1)
+shader_parameter/shallow_water_color = Color(0.236737, 0.611232, 0.818931, 1)
+shader_parameter/river_color = Color(0.23909, 0.548467, 0.50252, 1)
+shader_parameter/mountain_color = Color(0.270117, 0.446332, 0.289717, 1)
+shader_parameter/highland_color = Color(0.294229, 0.488263, 0.375919, 1)
+shader_parameter/lowland_color = Color(0.230646, 0.569262, 0.573822, 1)
+shader_parameter/desert_color = Color(0.386911, 0.733893, 0.393576, 1)
+shader_parameter/ice_color = Color(0.0852204, 0.689379, 0.546908, 1)
+shader_parameter/coastal_blend = 0.03
+shader_parameter/beach_color = Color(0.337424, 0.61343, 0.42144, 1)
+shader_parameter/core_color = Color(0.126374, 0.289192, 0.121788, 1)
+shader_parameter/core_size = 0.772
+shader_parameter/color_variation = 0.247
+shader_parameter/variation_tint = Color(0.2, 0.5, 0.8, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yakqk"]
+shader = ExtResource("2_17jbo")
+shader_parameter/planet_radius = 0.453
+shader_parameter/edge_softness = 0.0
+shader_parameter/uv_offset_x = 0.906
+shader_parameter/uv_offset_y = -0.333
+shader_parameter/continent_seed = 349.352
+shader_parameter/terrain_seed = 465.814
+shader_parameter/river_seed = 562.007
+shader_parameter/detail_seed = 608.788
+shader_parameter/cloud_seed = 723.382
+shader_parameter/output_mode = 0
+shader_parameter/normal_map_intensity = 0.1
+shader_parameter/sphere_strength = -0.939
+shader_parameter/light_direction = Vector2(0.545, 0.305)
+shader_parameter/light_intensity = 1.01
+shader_parameter/light_color = Color(0.848782, 0.685771, 0.634953, 1)
+shader_parameter/shadow_tint = Color(0.225273, 0.308231, 0.479796, 1)
+shader_parameter/shadow_tint_strength = 0.751
+shader_parameter/ambient_light = 0.682
+shader_parameter/ambient_color = Color(0.0669271, 0.35906, 0.999974, 1)
+shader_parameter/rim_light_intensity = 0.848
+shader_parameter/rim_light_color = Color(0.562944, 0.791804, 0.90839, 1)
+shader_parameter/rim_light_falloff = 3.732
+shader_parameter/rim_light_crescent_power = 9.61
+shader_parameter/rim_light_crescent_offset = 0.03
+shader_parameter/rim_light_glow_intensity = 1.0
+shader_parameter/rim_light_glow_radius = 0.1
+shader_parameter/rim_light_glow_enabled = true
+shader_parameter/continent_scale = 8.407
+shader_parameter/continent_threshold = 0.523
+shader_parameter/continent_sharpness = 0.484
+shader_parameter/continent_octaves = 6.0
+shader_parameter/continent_persistence = 0.522
+shader_parameter/ocean_depth = 0.508
+shader_parameter/warp_strength = 2.375e-07
+shader_parameter/warp_scale = 3.347
+shader_parameter/terrain_scale = 36.205
+shader_parameter/terrain_strength = 1.25
+shader_parameter/terrain_octaves = 6.0
+shader_parameter/terrain_persistence = 2.035
+shader_parameter/terrain_softness = 0.312
+shader_parameter/detail_scale = 13.705
+shader_parameter/detail_strength = 0.363
+shader_parameter/detail_octaves = 13.042
+shader_parameter/mountain_threshold = 0.617
+shader_parameter/highland_threshold = 0.425
+shader_parameter/cloud_coverage = 0.505
+shader_parameter/cloud_scale = 8.176
+shader_parameter/cloud_stretch_x = 0.632
+shader_parameter/cloud_stretch_y = 0.581
+shader_parameter/cloud_octaves = 16.669
+shader_parameter/cloud_persistence = 0.641
+shader_parameter/cloud_density = 1.073
+shader_parameter/cloud_sharpness = 0.167
+shader_parameter/cloud_color = Color(0.94, 0.91556, 0.5734, 1)
+shader_parameter/cloud_shadow_color = Color(0.298666, 0.098, 0.7, 1)
+shader_parameter/cloud_opacity = 0.414
+shader_parameter/cloud_shadow_strength = 0.757
+shader_parameter/cloud_offset_x = 0.375
+shader_parameter/cloud_offset_y = 0.0
+shader_parameter/river_scale = 11.24
+shader_parameter/river_strength = 1.468
+shader_parameter/river_width = 0.904
+shader_parameter/river_octaves = 12.857
+shader_parameter/river_persistence = 0.502
+shader_parameter/river_glow_enabled = false
+shader_parameter/river_glow_intensity = 1.0
+shader_parameter/river_glow_radius = 0.02
+shader_parameter/river_glow_color = Color(0.4, 0.8, 1, 1)
+shader_parameter/ice_cap_size = 0.182
+shader_parameter/ice_cap_softness = 0.907
+shader_parameter/desert_latitude = 0.265
+shader_parameter/desert_width = 0.376
+shader_parameter/desert_intensity = 1.061
+shader_parameter/deep_ocean_color = Color(0.235077, 0.101178, 0.138636, 1)
+shader_parameter/shallow_water_color = Color(0.256349, 0.447266, 0.311982, 1)
+shader_parameter/river_color = Color(0.2322, 0.43, 0.235497, 1)
+shader_parameter/mountain_color = Color(0.432214, 0.197486, 0.0974782, 1)
+shader_parameter/highland_color = Color(0.157991, 0.281925, 0.218817, 1)
+shader_parameter/lowland_color = Color(0.199886, 0.394619, 0.600303, 1)
+shader_parameter/desert_color = Color(0.295468, 0.548213, 0.387814, 1)
+shader_parameter/ice_color = Color(0.14771, 0.584382, 0.455732, 1)
+shader_parameter/coastal_blend = 0.025
+shader_parameter/beach_color = Color(0.7, 0.6, 0.4, 1)
+shader_parameter/core_color = Color(0.472411, 0.927253, 0.811727, 1)
+shader_parameter/core_size = 2.549
+shader_parameter/color_variation = 1.166
+shader_parameter/variation_tint = Color(0.2, 0.5, 0.8, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ou8ku"]
+shader = ExtResource("2_17jbo")
+shader_parameter/planet_radius = 0.45
+shader_parameter/edge_softness = 0.0
+shader_parameter/uv_offset_x = 0.0
+shader_parameter/uv_offset_y = 0.0
+shader_parameter/continent_seed = 289.349
+shader_parameter/terrain_seed = 575.297
+shader_parameter/river_seed = 646.813
+shader_parameter/detail_seed = 598.187
+shader_parameter/cloud_seed = 758.307
+shader_parameter/output_mode = 0
+shader_parameter/normal_map_intensity = 0.036
+shader_parameter/sphere_strength = -3.017
+shader_parameter/light_direction = Vector2(-0.62, 1.495)
+shader_parameter/light_intensity = 2.541
+shader_parameter/light_color = Color(0.616293, 0.3696, 0.88, 1)
+shader_parameter/shadow_tint = Color(0.931959, 0.377788, 0.579564, 1)
+shader_parameter/shadow_tint_strength = 0.509
+shader_parameter/ambient_light = 0.247
+shader_parameter/ambient_color = Color(0.68, 0.340793, 0.1836, 1)
+shader_parameter/rim_light_intensity = 1.428
+shader_parameter/rim_light_color = Color(0.757868, 0.524441, 0.290541, 1)
+shader_parameter/rim_light_falloff = 2.679
+shader_parameter/rim_light_crescent_power = 0.856
+shader_parameter/rim_light_crescent_offset = -0.486
+shader_parameter/rim_light_glow_intensity = 1.664
+shader_parameter/rim_light_glow_radius = 0.096
+shader_parameter/rim_light_glow_enabled = true
+shader_parameter/continent_scale = 6.85
+shader_parameter/continent_threshold = 0.43
+shader_parameter/continent_sharpness = 0.259
+shader_parameter/continent_octaves = 6.735
+shader_parameter/continent_persistence = 0.862
+shader_parameter/ocean_depth = 0.777
+shader_parameter/warp_strength = 0.565
+shader_parameter/warp_scale = -0.494999
+shader_parameter/terrain_scale = 21.102
+shader_parameter/terrain_strength = 1.52
+shader_parameter/terrain_octaves = 7.061
+shader_parameter/terrain_persistence = 10.387
+shader_parameter/terrain_softness = 0.415
+shader_parameter/detail_scale = 10.544
+shader_parameter/detail_strength = 0.27
+shader_parameter/detail_octaves = 8.648
+shader_parameter/mountain_threshold = 0.761
+shader_parameter/highland_threshold = 0.449
+shader_parameter/cloud_coverage = 0.078
+shader_parameter/cloud_scale = 8.14
+shader_parameter/cloud_stretch_x = 1.0
+shader_parameter/cloud_stretch_y = 1.0
+shader_parameter/cloud_octaves = 3.0
+shader_parameter/cloud_persistence = 0.5
+shader_parameter/cloud_density = 0.0
+shader_parameter/cloud_sharpness = 0.01
+shader_parameter/cloud_color = Color(1, 1, 1, 1)
+shader_parameter/cloud_shadow_color = Color(0.7, 0.7, 0.8, 1)
+shader_parameter/cloud_opacity = 0.7
+shader_parameter/cloud_shadow_strength = 0.3
+shader_parameter/cloud_offset_x = 0.0
+shader_parameter/cloud_offset_y = 0.0
+shader_parameter/river_scale = 12.015
+shader_parameter/river_strength = 1.378
+shader_parameter/river_width = 0.343
+shader_parameter/river_octaves = 8.148
+shader_parameter/river_persistence = 0.624
+shader_parameter/river_glow_enabled = true
+shader_parameter/river_glow_intensity = 0.02
+shader_parameter/river_glow_radius = 0.04
+shader_parameter/river_glow_color = Color(0.614466, 0.202308, 0.246698, 1)
+shader_parameter/ice_cap_size = 0.0
+shader_parameter/ice_cap_softness = 0.284
+shader_parameter/desert_latitude = 0.273
+shader_parameter/desert_width = 0.3
+shader_parameter/desert_intensity = 0.987
+shader_parameter/deep_ocean_color = Color(0.324338, 0.526422, 0.471426, 1)
+shader_parameter/shallow_water_color = Color(0.319611, 0.602635, 0.523865, 1)
+shader_parameter/river_color = Color(0.1872, 0.78, 0.64168, 1)
+shader_parameter/mountain_color = Color(0.302125, 0.458078, 0.416005, 1)
+shader_parameter/highland_color = Color(0.251462, 0.46102, 0.354, 1)
+shader_parameter/lowland_color = Color(0.0828392, 0.0162416, 0.00274175, 1)
+shader_parameter/desert_color = Color(0.605199, 0.728792, 0.681128, 1)
+shader_parameter/ice_color = Color(0.97, 0.779557, 0.3686, 1)
+shader_parameter/coastal_blend = 0.03
+shader_parameter/beach_color = Color(0.306748, 0.267483, 0.287785, 1)
+shader_parameter/core_color = Color(0.69498, 0.399419, 0.674356, 1)
+shader_parameter/core_size = 2.191
+shader_parameter/color_variation = 0.851
+shader_parameter/variation_tint = Color(0.667611, 0.204357, 0.172437, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fu3yr"]
+shader = ExtResource("2_17jbo")
+shader_parameter/planet_radius = 0.45
+shader_parameter/edge_softness = 0.0
+shader_parameter/uv_offset_x = 0.0
+shader_parameter/uv_offset_y = 0.579
+shader_parameter/continent_seed = 381.223
+shader_parameter/terrain_seed = 363.283
+shader_parameter/river_seed = 643.279
+shader_parameter/detail_seed = 654.654
+shader_parameter/cloud_seed = 652.71
+shader_parameter/output_mode = 0
+shader_parameter/normal_map_intensity = 0.1
+shader_parameter/sphere_strength = -1.25
+shader_parameter/light_direction = Vector2(-0.91, 0.3)
+shader_parameter/light_intensity = 1.848
+shader_parameter/light_color = Color(0.530035, 0.542569, 0.539495, 1)
+shader_parameter/shadow_tint = Color(0.5, 0.6, 0.8, 1)
+shader_parameter/shadow_tint_strength = 0.38
+shader_parameter/ambient_light = 0.336
+shader_parameter/ambient_color = Color(0.498165, 0.542273, 0.544836, 1)
+shader_parameter/rim_light_intensity = 1.661
+shader_parameter/rim_light_color = Color(0.268777, 0.560027, 0.343026, 1)
+shader_parameter/rim_light_falloff = 1.9
+shader_parameter/rim_light_crescent_power = 1.945
+shader_parameter/rim_light_crescent_offset = -0.219
+shader_parameter/rim_light_glow_intensity = 0.723
+shader_parameter/rim_light_glow_radius = 0.061
+shader_parameter/rim_light_glow_enabled = true
+shader_parameter/continent_scale = 6.011
+shader_parameter/continent_threshold = 0.496
+shader_parameter/continent_sharpness = 0.391
+shader_parameter/continent_octaves = 8.0
+shader_parameter/continent_persistence = 0.511
+shader_parameter/ocean_depth = 0.54
+shader_parameter/warp_strength = 2.375e-07
+shader_parameter/warp_scale = 5.0
+shader_parameter/terrain_scale = 8.708
+shader_parameter/terrain_strength = 1.098
+shader_parameter/terrain_octaves = 7.684
+shader_parameter/terrain_persistence = 0.759
+shader_parameter/terrain_softness = 0.14
+shader_parameter/detail_scale = 12.523
+shader_parameter/detail_strength = 0.255
+shader_parameter/detail_octaves = 11.25
+shader_parameter/mountain_threshold = 0.486
+shader_parameter/highland_threshold = 0.334
+shader_parameter/cloud_coverage = 0.405
+shader_parameter/cloud_scale = 3.096
+shader_parameter/cloud_stretch_x = 2.406
+shader_parameter/cloud_stretch_y = 2.272
+shader_parameter/cloud_octaves = 14.212
+shader_parameter/cloud_persistence = 0.662
+shader_parameter/cloud_density = 1.555
+shader_parameter/cloud_sharpness = 0.296
+shader_parameter/cloud_color = Color(0.9, 0.43965, 0.00899999, 1)
+shader_parameter/cloud_shadow_color = Color(0.524491, 0.182437, 0.433025, 1)
+shader_parameter/cloud_opacity = 0.972
+shader_parameter/cloud_shadow_strength = 0.651
+shader_parameter/cloud_offset_x = 0.0
+shader_parameter/cloud_offset_y = 0.0
+shader_parameter/river_scale = 7.053
+shader_parameter/river_strength = 0.827
+shader_parameter/river_width = 0.312
+shader_parameter/river_octaves = 8.251
+shader_parameter/river_persistence = 0.5
+shader_parameter/river_glow_enabled = false
+shader_parameter/river_glow_intensity = 1.0
+shader_parameter/river_glow_radius = 0.04
+shader_parameter/river_glow_color = Color(0.4, 0.8, 1, 1)
+shader_parameter/ice_cap_size = 0.141
+shader_parameter/ice_cap_softness = 0.622
+shader_parameter/desert_latitude = 0.8
+shader_parameter/desert_width = 0.0
+shader_parameter/desert_intensity = 1.239
+shader_parameter/deep_ocean_color = Color(0.484482, 0.581509, 0.868366, 1)
+shader_parameter/shallow_water_color = Color(0.507767, 0.551919, 0.792477, 1)
+shader_parameter/river_color = Color(0, 0.566667, 1, 1)
+shader_parameter/mountain_color = Color(0, 0.15, 1, 1)
+shader_parameter/highland_color = Color(0, 0.566667, 1, 1)
+shader_parameter/lowland_color = Color(0.933333, 1, 0, 1)
+shader_parameter/desert_color = Color(1, 0.116667, 0, 1)
+shader_parameter/ice_color = Color(0.581478, 0.526361, 0.526565, 1)
+shader_parameter/coastal_blend = 0.03
+shader_parameter/beach_color = Color(0.7, 0.6, 0.4, 1)
+shader_parameter/core_color = Color(1, 0, 0, 1)
+shader_parameter/core_size = 1.507
+shader_parameter/color_variation = 0.0
+shader_parameter/variation_tint = Color(0.757457, 0.769993, 0.200962, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ns3gl"]
+shader = ExtResource("2_17jbo")
+shader_parameter/planet_radius = 0.45
+shader_parameter/edge_softness = 0.0
+shader_parameter/uv_offset_x = 0.0
+shader_parameter/uv_offset_y = 0.0
+shader_parameter/continent_seed = 678.042
+shader_parameter/terrain_seed = 430.421
+shader_parameter/river_seed = 576.271
+shader_parameter/detail_seed = 538.117
+shader_parameter/cloud_seed = 557.049
+shader_parameter/output_mode = 0
+shader_parameter/normal_map_intensity = 0.1
+shader_parameter/sphere_strength = -0.897
+shader_parameter/light_direction = Vector2(-0.01, -0.86)
+shader_parameter/light_intensity = 1.282
+shader_parameter/light_color = Color(0.87, 1, 0.8, 1)
+shader_parameter/shadow_tint = Color(0.5, 0.6, 0.8, 1)
+shader_parameter/shadow_tint_strength = 0.193
+shader_parameter/ambient_light = 0.067
+shader_parameter/ambient_color = Color(0.99, 0.4, 1, 1)
+shader_parameter/rim_light_intensity = 0.601
+shader_parameter/rim_light_color = Color(0.852531, 0.88633, 0.937381, 1)
+shader_parameter/rim_light_falloff = 5.08
+shader_parameter/rim_light_crescent_power = 1.242
+shader_parameter/rim_light_crescent_offset = -0.202
+shader_parameter/rim_light_glow_intensity = 1.247
+shader_parameter/rim_light_glow_radius = 0.111
+shader_parameter/rim_light_glow_enabled = true
+shader_parameter/continent_scale = 9.172
+shader_parameter/continent_threshold = 0.517
+shader_parameter/continent_sharpness = 0.339
+shader_parameter/continent_octaves = 6.612
+shader_parameter/continent_persistence = 0.571
+shader_parameter/ocean_depth = 0.814
+shader_parameter/warp_strength = 0.15
+shader_parameter/warp_scale = 3.163
+shader_parameter/terrain_scale = 6.763
+shader_parameter/terrain_strength = 0.909
+shader_parameter/terrain_octaves = 3.47
+shader_parameter/terrain_persistence = 3.524
+shader_parameter/terrain_softness = 0.1
+shader_parameter/detail_scale = 8.827
+shader_parameter/detail_strength = 0.2
+shader_parameter/detail_octaves = 2.0
+shader_parameter/mountain_threshold = 0.7
+shader_parameter/highland_threshold = 0.4
+shader_parameter/cloud_coverage = 0.414
+shader_parameter/cloud_scale = 13.647
+shader_parameter/cloud_stretch_x = 0.965
+shader_parameter/cloud_stretch_y = 1.0
+shader_parameter/cloud_octaves = 16.562
+shader_parameter/cloud_persistence = 0.612
+shader_parameter/cloud_density = 1.224
+shader_parameter/cloud_sharpness = 0.379
+shader_parameter/cloud_color = Color(1, 1, 1, 1)
+shader_parameter/cloud_shadow_color = Color(0.7, 0.7, 0.8, 1)
+shader_parameter/cloud_opacity = 0.7
+shader_parameter/cloud_shadow_strength = 0.3
+shader_parameter/cloud_offset_x = 0.0
+shader_parameter/cloud_offset_y = 0.0
+shader_parameter/river_scale = 14.52
+shader_parameter/river_strength = 0.517
+shader_parameter/river_width = 0.156
+shader_parameter/river_octaves = 10.795
+shader_parameter/river_persistence = 0.5
+shader_parameter/river_glow_enabled = true
+shader_parameter/river_glow_intensity = 0.329
+shader_parameter/river_glow_radius = 0.02
+shader_parameter/river_glow_color = Color(0.710762, 0.335786, 0.422405, 1)
+shader_parameter/ice_cap_size = 0.05
+shader_parameter/ice_cap_softness = 0.333
+shader_parameter/desert_latitude = 0.387
+shader_parameter/desert_width = 0.196
+shader_parameter/desert_intensity = 1.142
+shader_parameter/deep_ocean_color = Color(0.605548, 0.357557, 0.365113, 1)
+shader_parameter/shallow_water_color = Color(0.0991158, 0.265054, 0.445753, 1)
+shader_parameter/river_color = Color(0.436602, 0.317597, 0.363855, 1)
+shader_parameter/mountain_color = Color(0.487292, 0.294318, 0.126769, 1)
+shader_parameter/highland_color = Color(0.577933, 0.360442, 0.263611, 1)
+shader_parameter/lowland_color = Color(0.342673, 0.234469, 0.216659, 1)
+shader_parameter/desert_color = Color(0.528, 0.6, 0.5412, 1)
+shader_parameter/ice_color = Color(0.9, 0.95, 1, 1)
+shader_parameter/coastal_blend = 0.043
+shader_parameter/beach_color = Color(0.658234, 0.604513, 0.537719, 1)
+shader_parameter/core_color = Color(0.362637, 0.733017, 0.717289, 1)
+shader_parameter/core_size = 1.401
+shader_parameter/color_variation = 0.66
+shader_parameter/variation_tint = Color(0.2, 0.5, 0.8, 1)
+
 [node name="PlanetLibrary" type="Node2D"]
 script = ExtResource("1_6444o")
 
@@ -13963,182 +15313,777 @@ script = ExtResource("2_36wlk")
 parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_q4pxu"), SubResource("Resource_36wlk"), SubResource("Resource_6444o")])
 metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
 
-[node name="planet_1831" type="ColorRect" parent="."]
-material = SubResource("ShaderMaterial_i1mm2")
+[node name="planet_2350" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_ygv0b")
 offset_left = 6399.0
 offset_top = 4306.0
 offset_right = 6911.0
 offset_bottom = 4818.0
 
-[node name="PlanetAnimationSet" type="Node" parent="planet_1831"]
+[node name="PlanetAnimationSet" type="Node" parent="planet_2350"]
 script = ExtResource("2_36wlk")
 parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_tysof"), SubResource("Resource_gm5lm")])
 metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
 
-[node name="planet_1841" type="ColorRect" parent="."]
-material = SubResource("ShaderMaterial_k2qjb")
+[node name="planet_2360" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_iwod2")
 offset_left = 6999.0
 offset_top = 4306.0
 offset_right = 7511.0
 offset_bottom = 4818.0
 
-[node name="PlanetAnimationSet" type="Node" parent="planet_1841"]
+[node name="PlanetAnimationSet" type="Node" parent="planet_2360"]
 script = ExtResource("2_36wlk")
 parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_dcso2"), SubResource("Resource_wyyg7"), SubResource("Resource_yvipk"), SubResource("Resource_v7bj2"), SubResource("Resource_ap2rd")])
 metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
 
-[node name="planet_1851" type="ColorRect" parent="."]
-material = SubResource("ShaderMaterial_uq5yr")
+[node name="planet_2370" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_s2k4k")
 offset_left = 7599.0
 offset_top = 4306.0
 offset_right = 8111.0
 offset_bottom = 4818.0
 
-[node name="PlanetAnimationSet" type="Node" parent="planet_1851"]
+[node name="PlanetAnimationSet" type="Node" parent="planet_2370"]
 script = ExtResource("2_36wlk")
 parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_dcso2"), SubResource("Resource_wyyg7")])
 metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
 
-[node name="planet_1861" type="ColorRect" parent="."]
-material = SubResource("ShaderMaterial_7jm5c")
+[node name="planet_2380" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_q2fhr")
 offset_left = 8199.0
 offset_top = 4306.0
 offset_right = 8711.0
 offset_bottom = 4818.0
 
-[node name="PlanetAnimationSet" type="Node" parent="planet_1861"]
+[node name="PlanetAnimationSet" type="Node" parent="planet_2380"]
 script = ExtResource("2_36wlk")
 parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_dcso2"), SubResource("Resource_wyyg7")])
 metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
 
-[node name="planet_1871" type="ColorRect" parent="."]
-material = SubResource("ShaderMaterial_w1ng7")
+[node name="planet_2390" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_jhbqu")
 offset_left = 8799.0
 offset_top = 4306.0
 offset_right = 9311.0
 offset_bottom = 4818.0
 
-[node name="PlanetAnimationSet" type="Node" parent="planet_1871"]
+[node name="PlanetAnimationSet" type="Node" parent="planet_2390"]
 script = ExtResource("2_36wlk")
 parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_dcso2"), SubResource("Resource_wyyg7")])
 metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
 
-[node name="planet_1881" type="ColorRect" parent="."]
-material = SubResource("ShaderMaterial_5qxq0")
+[node name="planet_2400" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_xteml")
 offset_left = 6399.0
 offset_top = 4906.0
 offset_right = 6911.0
 offset_bottom = 5418.0
 
-[node name="PlanetAnimationSet" type="Node" parent="planet_1881"]
+[node name="PlanetAnimationSet" type="Node" parent="planet_2400"]
 script = ExtResource("2_36wlk")
 parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_q4pxu"), SubResource("Resource_36wlk"), SubResource("Resource_6444o")])
 metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
 
-[node name="planet_1891" type="ColorRect" parent="."]
-material = SubResource("ShaderMaterial_6y136")
+[node name="planet_2410" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_o3yr6")
 offset_left = 6999.0
 offset_top = 4906.0
 offset_right = 7511.0
 offset_bottom = 5418.0
 
-[node name="PlanetAnimationSet" type="Node" parent="planet_1891"]
+[node name="PlanetAnimationSet" type="Node" parent="planet_2410"]
 script = ExtResource("2_36wlk")
 parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_q4pxu"), SubResource("Resource_36wlk"), SubResource("Resource_6444o")])
 metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
 
-[node name="planet_1901" type="ColorRect" parent="."]
-material = SubResource("ShaderMaterial_uu232")
+[node name="planet_2420" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_u1uss")
 offset_left = 7599.0
 offset_top = 4906.0
 offset_right = 8111.0
 offset_bottom = 5418.0
 
-[node name="PlanetAnimationSet" type="Node" parent="planet_1901"]
+[node name="PlanetAnimationSet" type="Node" parent="planet_2420"]
 script = ExtResource("2_36wlk")
 parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_22lcg"), SubResource("Resource_lgd78")])
 metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
 
-[node name="planet_1911" type="ColorRect" parent="."]
-material = SubResource("ShaderMaterial_144j4")
+[node name="planet_2430" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_wxf26")
 offset_left = 8199.0
 offset_top = 4906.0
 offset_right = 8711.0
 offset_bottom = 5418.0
 
-[node name="PlanetAnimationSet" type="Node" parent="planet_1911"]
+[node name="PlanetAnimationSet" type="Node" parent="planet_2430"]
 script = ExtResource("2_36wlk")
 parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_dja01"), SubResource("Resource_m8lof"), SubResource("Resource_0ua5g")])
 metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
 
-[node name="planet_1921" type="ColorRect" parent="."]
-material = SubResource("ShaderMaterial_5m6rm")
+[node name="planet_2440" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_2pu1t")
 offset_left = 8799.0
 offset_top = 4906.0
 offset_right = 9311.0
 offset_bottom = 5418.0
 
-[node name="PlanetAnimationSet" type="Node" parent="planet_1921"]
+[node name="PlanetAnimationSet" type="Node" parent="planet_2440"]
 script = ExtResource("2_36wlk")
 parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_4q660")])
 metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
 
-[node name="planet_1931" type="ColorRect" parent="."]
-material = SubResource("ShaderMaterial_tfss1")
+[node name="planet_2450" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_yjkws")
 offset_left = 6399.0
 offset_top = 5506.0
 offset_right = 6911.0
 offset_bottom = 6018.0
 
-[node name="PlanetAnimationSet" type="Node" parent="planet_1931"]
+[node name="PlanetAnimationSet" type="Node" parent="planet_2450"]
 script = ExtResource("2_36wlk")
 parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_orco5"), SubResource("Resource_rllgy"), SubResource("Resource_2b4hm"), SubResource("Resource_m5gsh")])
 metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
 
-[node name="planet_1941" type="ColorRect" parent="."]
-material = SubResource("ShaderMaterial_p72c5")
+[node name="planet_2460" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_yakqk")
 offset_left = 6999.0
 offset_top = 5506.0
 offset_right = 7511.0
 offset_bottom = 6018.0
 
-[node name="PlanetAnimationSet" type="Node" parent="planet_1941"]
+[node name="PlanetAnimationSet" type="Node" parent="planet_2460"]
 script = ExtResource("2_36wlk")
 parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_tysof"), SubResource("Resource_gm5lm")])
 metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
 
-[node name="planet_1951" type="ColorRect" parent="."]
-material = SubResource("ShaderMaterial_lli55")
+[node name="planet_2470" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_ou8ku")
 offset_left = 7599.0
 offset_top = 5506.0
 offset_right = 8111.0
 offset_bottom = 6018.0
 
-[node name="PlanetAnimationSet" type="Node" parent="planet_1951"]
+[node name="PlanetAnimationSet" type="Node" parent="planet_2470"]
 script = ExtResource("2_36wlk")
 parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_dcso2"), SubResource("Resource_wyyg7"), SubResource("Resource_yvipk"), SubResource("Resource_v7bj2"), SubResource("Resource_ap2rd")])
 metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
 
-[node name="planet_1961" type="ColorRect" parent="."]
-material = SubResource("ShaderMaterial_bi3wd")
+[node name="planet_2480" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_fu3yr")
 offset_left = 8199.0
 offset_top = 5506.0
 offset_right = 8711.0
 offset_bottom = 6018.0
 
-[node name="PlanetAnimationSet" type="Node" parent="planet_1961"]
+[node name="PlanetAnimationSet" type="Node" parent="planet_2480"]
 script = ExtResource("2_36wlk")
 parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_q4pxu"), SubResource("Resource_36wlk"), SubResource("Resource_6444o")])
 metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
 
-[node name="planet_1981" type="ColorRect" parent="."]
-material = SubResource("ShaderMaterial_1gh55")
+[node name="planet_2490" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_ns3gl")
 offset_left = 8799.0
 offset_top = 5506.0
 offset_right = 9311.0
 offset_bottom = 6018.0
 
-[node name="PlanetAnimationSet" type="Node" parent="planet_1981"]
+[node name="PlanetAnimationSet" type="Node" parent="planet_2490"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_dcso2"), SubResource("Resource_wyyg7")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_1991" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_7lvx8")
+offset_left = 9571.0
+offset_right = 10083.0
+offset_bottom = 512.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_1991"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_7bdk8")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2001" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_44l65")
+offset_left = 10176.0
+offset_right = 10688.0
+offset_bottom = 512.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2001"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_q4pxu"), SubResource("Resource_36wlk"), SubResource("Resource_6444o")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2011" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_27e00")
+offset_left = 10771.0
+offset_right = 11283.0
+offset_bottom = 512.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2011"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_q4pxu"), SubResource("Resource_36wlk"), SubResource("Resource_6444o")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2021" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_ckyt1")
+offset_left = 11371.0
+offset_right = 11883.0
+offset_bottom = 512.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2021"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_tysof"), SubResource("Resource_gm5lm")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2031" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_hxljt")
+offset_left = 11971.0
+offset_right = 12483.0
+offset_bottom = 512.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2031"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_dcso2"), SubResource("Resource_wyyg7"), SubResource("Resource_yvipk"), SubResource("Resource_v7bj2"), SubResource("Resource_ap2rd")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2041" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_51sv7")
+offset_left = 9571.0
+offset_top = 600.0
+offset_right = 10083.0
+offset_bottom = 1112.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2041"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_22lcg"), SubResource("Resource_lgd78")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2051" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_itgit")
+offset_left = 10171.0
+offset_top = 600.0
+offset_right = 10683.0
+offset_bottom = 1112.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2051"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_orco5"), SubResource("Resource_rllgy"), SubResource("Resource_2b4hm"), SubResource("Resource_m5gsh")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2061" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_xue8q")
+offset_left = 10771.0
+offset_top = 600.0
+offset_right = 11283.0
+offset_bottom = 1112.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2061"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_dja01"), SubResource("Resource_m8lof"), SubResource("Resource_0ua5g")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2071" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_mbju2")
+offset_left = 11371.0
+offset_top = 600.0
+offset_right = 11883.0
+offset_bottom = 1112.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2071"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_q4pxu"), SubResource("Resource_36wlk"), SubResource("Resource_6444o")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2081" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_mngx5")
+offset_left = 11971.0
+offset_top = 600.0
+offset_right = 12483.0
+offset_bottom = 1112.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2081"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_q4pxu"), SubResource("Resource_36wlk"), SubResource("Resource_6444o")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2091" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_0l0uc")
+offset_left = 9571.0
+offset_top = 1200.0
+offset_right = 10083.0
+offset_bottom = 1712.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2091"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_tysof"), SubResource("Resource_gm5lm")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2101" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_bi2w7")
+offset_left = 10171.0
+offset_top = 1200.0
+offset_right = 10683.0
+offset_bottom = 1712.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2101"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_dcso2"), SubResource("Resource_wyyg7"), SubResource("Resource_yvipk"), SubResource("Resource_v7bj2"), SubResource("Resource_ap2rd")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2111" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_e3okm")
+offset_left = 10771.0
+offset_top = 1200.0
+offset_right = 11283.0
+offset_bottom = 1712.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2111"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_dcso2"), SubResource("Resource_wyyg7")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2121" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_he6tw")
+offset_left = 11371.0
+offset_top = 1200.0
+offset_right = 11883.0
+offset_bottom = 1712.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2121"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_dcso2"), SubResource("Resource_wyyg7")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2131" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_uv4h7")
+offset_left = 11971.0
+offset_top = 1200.0
+offset_right = 12483.0
+offset_bottom = 1712.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2131"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_dcso2"), SubResource("Resource_wyyg7")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2141" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_qtmvg")
+offset_left = 9571.0
+offset_top = 1800.0
+offset_right = 10083.0
+offset_bottom = 2312.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2141"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_q4pxu"), SubResource("Resource_36wlk"), SubResource("Resource_6444o")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2151" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_s270l")
+offset_left = 10171.0
+offset_top = 1800.0
+offset_right = 10683.0
+offset_bottom = 2312.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2151"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_q4pxu"), SubResource("Resource_36wlk"), SubResource("Resource_6444o")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2161" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_qignl")
+offset_left = 10771.0
+offset_top = 1800.0
+offset_right = 11283.0
+offset_bottom = 2312.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2161"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_22lcg"), SubResource("Resource_lgd78")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2171" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_odrn4")
+offset_left = 11371.0
+offset_top = 1800.0
+offset_right = 11883.0
+offset_bottom = 2312.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2171"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_dja01"), SubResource("Resource_m8lof"), SubResource("Resource_0ua5g")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2181" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_fpd74")
+offset_left = 11971.0
+offset_top = 1800.0
+offset_right = 12483.0
+offset_bottom = 2312.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2181"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_4q660")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2191" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_d6054")
+offset_left = 9571.0
+offset_top = 2400.0
+offset_right = 10083.0
+offset_bottom = 2912.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2191"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_orco5"), SubResource("Resource_rllgy"), SubResource("Resource_2b4hm"), SubResource("Resource_m5gsh")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2201" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_5xjjj")
+offset_left = 10171.0
+offset_top = 2400.0
+offset_right = 10683.0
+offset_bottom = 2912.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2201"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_tysof"), SubResource("Resource_gm5lm")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2211" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_7160m")
+offset_left = 10771.0
+offset_top = 2400.0
+offset_right = 11283.0
+offset_bottom = 2912.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2211"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_dcso2"), SubResource("Resource_wyyg7"), SubResource("Resource_yvipk"), SubResource("Resource_v7bj2"), SubResource("Resource_ap2rd")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2231" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_k1e47")
+offset_left = 11371.0
+offset_top = 2400.0
+offset_right = 11883.0
+offset_bottom = 2912.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2231"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_q4pxu"), SubResource("Resource_36wlk"), SubResource("Resource_6444o")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2241" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_icrof")
+offset_left = 11971.0
+offset_top = 2400.0
+offset_right = 12483.0
+offset_bottom = 2912.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2241"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_dcso2"), SubResource("Resource_wyyg7")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2251" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_t55h6")
+offset_left = 9571.0
+offset_top = 3106.0
+offset_right = 10083.0
+offset_bottom = 3618.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2251"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_7bdk8")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2261" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_oy26n")
+offset_left = 10176.0
+offset_top = 3106.0
+offset_right = 10688.0
+offset_bottom = 3618.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2261"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_q4pxu"), SubResource("Resource_36wlk"), SubResource("Resource_6444o")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2271" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_jwx62")
+offset_left = 10771.0
+offset_top = 3106.0
+offset_right = 11283.0
+offset_bottom = 3618.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2271"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_q4pxu"), SubResource("Resource_36wlk"), SubResource("Resource_6444o")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2281" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_pes1k")
+offset_left = 11371.0
+offset_top = 3106.0
+offset_right = 11883.0
+offset_bottom = 3618.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2281"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_tysof"), SubResource("Resource_gm5lm")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2291" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_2yuua")
+offset_left = 11971.0
+offset_top = 3106.0
+offset_right = 12483.0
+offset_bottom = 3618.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2291"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_dcso2"), SubResource("Resource_wyyg7"), SubResource("Resource_yvipk"), SubResource("Resource_v7bj2"), SubResource("Resource_ap2rd")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2301" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_ejmkh")
+offset_left = 9571.0
+offset_top = 3706.0
+offset_right = 10083.0
+offset_bottom = 4218.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2301"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_22lcg"), SubResource("Resource_lgd78")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2311" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_1chp4")
+offset_left = 10171.0
+offset_top = 3706.0
+offset_right = 10683.0
+offset_bottom = 4218.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2311"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_orco5"), SubResource("Resource_rllgy"), SubResource("Resource_2b4hm"), SubResource("Resource_m5gsh")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2321" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_1iicy")
+offset_left = 10771.0
+offset_top = 3706.0
+offset_right = 11283.0
+offset_bottom = 4218.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2321"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_dja01"), SubResource("Resource_m8lof"), SubResource("Resource_0ua5g")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2331" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_rrd7k")
+offset_left = 11371.0
+offset_top = 3706.0
+offset_right = 11883.0
+offset_bottom = 4218.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2331"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_q4pxu"), SubResource("Resource_36wlk"), SubResource("Resource_6444o")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2341" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_53tey")
+offset_left = 11971.0
+offset_top = 3706.0
+offset_right = 12483.0
+offset_bottom = 4218.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2341"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_q4pxu"), SubResource("Resource_36wlk"), SubResource("Resource_6444o")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2351" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_ygv0b")
+offset_left = 9571.0
+offset_top = 4306.0
+offset_right = 10083.0
+offset_bottom = 4818.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2351"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_tysof"), SubResource("Resource_gm5lm")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2361" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_iwod2")
+offset_left = 10171.0
+offset_top = 4306.0
+offset_right = 10683.0
+offset_bottom = 4818.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2361"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_dcso2"), SubResource("Resource_wyyg7"), SubResource("Resource_yvipk"), SubResource("Resource_v7bj2"), SubResource("Resource_ap2rd")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2371" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_s2k4k")
+offset_left = 10771.0
+offset_top = 4306.0
+offset_right = 11283.0
+offset_bottom = 4818.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2371"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_dcso2"), SubResource("Resource_wyyg7")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2381" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_q2fhr")
+offset_left = 11371.0
+offset_top = 4306.0
+offset_right = 11883.0
+offset_bottom = 4818.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2381"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_dcso2"), SubResource("Resource_wyyg7")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2391" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_jhbqu")
+offset_left = 11971.0
+offset_top = 4306.0
+offset_right = 12483.0
+offset_bottom = 4818.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2391"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_dcso2"), SubResource("Resource_wyyg7")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2401" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_xteml")
+offset_left = 9571.0
+offset_top = 4906.0
+offset_right = 10083.0
+offset_bottom = 5418.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2401"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_q4pxu"), SubResource("Resource_36wlk"), SubResource("Resource_6444o")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2411" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_o3yr6")
+offset_left = 10171.0
+offset_top = 4906.0
+offset_right = 10683.0
+offset_bottom = 5418.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2411"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_q4pxu"), SubResource("Resource_36wlk"), SubResource("Resource_6444o")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2421" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_u1uss")
+offset_left = 10771.0
+offset_top = 4906.0
+offset_right = 11283.0
+offset_bottom = 5418.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2421"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_22lcg"), SubResource("Resource_lgd78")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2431" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_wxf26")
+offset_left = 11371.0
+offset_top = 4906.0
+offset_right = 11883.0
+offset_bottom = 5418.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2431"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_dja01"), SubResource("Resource_m8lof"), SubResource("Resource_0ua5g")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2441" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_2pu1t")
+offset_left = 11971.0
+offset_top = 4906.0
+offset_right = 12483.0
+offset_bottom = 5418.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2441"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_4q660")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2451" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_yjkws")
+offset_left = 9571.0
+offset_top = 5506.0
+offset_right = 10083.0
+offset_bottom = 6018.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2451"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_orco5"), SubResource("Resource_rllgy"), SubResource("Resource_2b4hm"), SubResource("Resource_m5gsh")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2461" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_yakqk")
+offset_left = 10171.0
+offset_top = 5506.0
+offset_right = 10683.0
+offset_bottom = 6018.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2461"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_tysof"), SubResource("Resource_gm5lm")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2471" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_ou8ku")
+offset_left = 10771.0
+offset_top = 5506.0
+offset_right = 11283.0
+offset_bottom = 6018.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2471"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_dcso2"), SubResource("Resource_wyyg7"), SubResource("Resource_yvipk"), SubResource("Resource_v7bj2"), SubResource("Resource_ap2rd")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2481" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_fu3yr")
+offset_left = 11371.0
+offset_top = 5506.0
+offset_right = 11883.0
+offset_bottom = 6018.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2481"]
+script = ExtResource("2_36wlk")
+parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_q4pxu"), SubResource("Resource_36wlk"), SubResource("Resource_6444o")])
+metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
+
+[node name="planet_2491" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_ns3gl")
+offset_left = 11971.0
+offset_top = 5506.0
+offset_right = 12483.0
+offset_bottom = 6018.0
+
+[node name="PlanetAnimationSet" type="Node" parent="planet_2491"]
 script = ExtResource("2_36wlk")
 parameter_animations = Array[ExtResource("3_6444o")]([SubResource("Resource_dcso2"), SubResource("Resource_wyyg7")])
 metadata/_custom_type_script = "uid://bnlvy0qphdwqo"
