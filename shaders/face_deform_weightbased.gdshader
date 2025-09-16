@@ -52,22 +52,22 @@ uniform bool show_blend_weights = false;
 // Helper function to calculate influence weight for a control point
 float calculate_influence_weight(vec2 uv, vec2 control_pos, float inner_radius, float outer_radius, float falloff) {
     if (outer_radius <= 0.0) return 0.0;
-    
+
     float dist = distance(uv, control_pos);
-    
+
     // No influence beyond outer radius
     if (dist > outer_radius) return 0.0;
-    
+
     // Full influence within inner radius
     if (dist <= inner_radius) return 1.0;
-    
+
     // Gradual falloff between inner and outer radius
     float transition_zone = outer_radius - inner_radius;
     if (transition_zone > 0.0) {
         float transition_progress = (dist - inner_radius) / transition_zone;
         return 1.0 - pow(transition_progress, falloff);
     }
-    
+
     return 1.0; // If inner == outer, full influence
 }
 
@@ -89,13 +89,13 @@ vec2 apply_blended_deformations(vec2 uv) {
     weights[3] = calculate_influence_weight(uv, nose_tip, nose_inner_radius, nose_outer_radius, nose_falloff);
     weights[4] = calculate_influence_weight(uv, left_ear, ear_inner_radius, ear_outer_radius, ear_falloff);
     weights[5] = calculate_influence_weight(uv, right_ear, ear_inner_radius, ear_outer_radius, ear_falloff);
-    
+
     // Step 2: Calculate total weight
     float total_weight = weights[0] + weights[1] + weights[2] + weights[3] + weights[4] + weights[5];
-    
+
     // Step 3: If no influences, return original UV
     if (total_weight <= 0.0) return uv;
-    
+
     // Step 4: Calculate what each control point wants to do
     vec2 targets[6];
     targets[0] = calculate_control_point_target(uv, left_eye_center, left_eye_scale, left_eye_translation);
@@ -104,28 +104,28 @@ vec2 apply_blended_deformations(vec2 uv) {
     targets[3] = calculate_control_point_target(uv, nose_tip, nose_scale, nose_translation);
     targets[4] = calculate_control_point_target(uv, left_ear, left_ear_scale, left_ear_translation);
     targets[5] = calculate_control_point_target(uv, right_ear, right_ear_scale, right_ear_translation);
-    
+
     // Step 5: Blend all influences based on normalized weights
     vec2 final_uv = vec2(0.0);
     vec2 uninfluenced_contribution = uv * (1.0 - min(total_weight, 1.0));
-    
+
     for (int i = 0; i < 6; i++) {
         if (weights[i] > 0.0) {
             float normalized_weight = weights[i] / max(total_weight, 1.0);
             final_uv += targets[i] * normalized_weight;
         }
     }
-    
+
     // Combine influenced and uninfluenced parts
     return final_uv + uninfluenced_contribution;
 }
 
 void fragment() {
     vec2 deformed_uv = apply_blended_deformations(UV);
-    
+
     // Sample the texture at deformed coordinates
     vec4 tex_color = texture(TEXTURE, deformed_uv);
-    
+
     // Debug visualization
     if (show_control_points || show_inner_areas || show_outer_areas || show_blend_weights) {
         // Define control points and their properties for debug rendering
@@ -134,12 +134,12 @@ void fragment() {
         float outer_radii[6] = float[](eye_outer_radius, eye_outer_radius, mouth_outer_radius, nose_outer_radius, ear_outer_radius, ear_outer_radius);
         float falloffs[6] = float[](eye_falloff, eye_falloff, mouth_falloff, nose_falloff, ear_falloff, ear_falloff);
         vec3 colors[6] = vec3[](vec3(1.0, 0.3, 0.3), vec3(1.0, 0.3, 0.3), vec3(0.3, 1.0, 0.3), vec3(0.3, 0.3, 1.0), vec3(1.0, 1.0, 0.3), vec3(1.0, 1.0, 0.3));
-        
+
         // Show blend weights as color intensity
         if (show_blend_weights) {
             float total_influence = 0.0;
             vec3 blend_color = vec3(0.0);
-            
+
             for (int i = 0; i < 6; i++) {
                 float weight = calculate_influence_weight(UV, points[i], inner_radii[i], outer_radii[i], falloffs[i]);
                 if (weight > 0.0) {
@@ -147,21 +147,21 @@ void fragment() {
                     blend_color += colors[i] * weight;
                 }
             }
-            
+
             if (total_influence > 0.0) {
                 blend_color /= max(total_influence, 1.0);
                 tex_color = mix(tex_color, vec4(blend_color, 0.3), 0.4);
             }
         }
-        
+
         for (int i = 0; i < 6; i++) {
             float dist_to_point = distance(UV, points[i]);
-            
+
             // Draw control point dots
             if (show_control_points && dist_to_point < point_size) {
                 tex_color = mix(tex_color, vec4(colors[i], 1.0), 0.9);
             }
-            
+
             // Draw inner radius circles (solid protected area)
             if (show_inner_areas && inner_radii[i] > 0.0) {
                 float inner_edge = abs(dist_to_point - inner_radii[i]);
@@ -169,7 +169,7 @@ void fragment() {
                     tex_color = mix(tex_color, vec4(colors[i], 1.0), 0.8);
                 }
             }
-            
+
             // Draw outer radius circles (falloff boundary)
             if (show_outer_areas && outer_radii[i] > 0.0) {
                 float outer_edge = abs(dist_to_point - outer_radii[i]);
@@ -179,6 +179,6 @@ void fragment() {
             }
         }
     }
-    
+
     COLOR = tex_color;
 }
