@@ -105,6 +105,10 @@ func initialize_from_save():
 			# Don't exceed new capacity
 			current_hyperspace_jumps = min(current_hyperspace_jumps, hyperspace_jump_capacity)
 	
+	# Apply the loaded ship to ShipManager and update graphics
+	ShipManager.set_current_ship(current_ship_id)
+	print("Applied loaded ship to ShipManager: ", current_ship_id)
+	
 	print("DEBUG: After loading:")
 	print("  credits = ", credits)
 	print("  current_cargo_weight = ", current_cargo_weight)
