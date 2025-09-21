@@ -49,6 +49,7 @@ func _ready():
 	print("PlayerData singleton initialized")
 	# Don't print starting values here - they'll be loaded from save
 
+
 func _notification(what):
 	"""Handle system notifications"""
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
@@ -86,6 +87,23 @@ func initialize_from_save():
 	current_ship_id = save_data.get("current_ship_id", "scout_mk1")
 	hyperspace_jump_capacity = save_data.get("hyperspace_jump_capacity", 3)
 	current_hyperspace_jumps = save_data.get("current_hyperspace_jumps", 3)
+	
+	# Validate ship stats against ships.json to ensure consistency
+	var ship_stats = ShipManager.get_ship_stats(current_ship_id)
+	if not ship_stats.is_empty():
+		var expected_cargo = ship_stats.get("cargo_capacity", cargo_capacity)
+		var expected_jumps = ship_stats.get("hyperspace_jump_capacity", hyperspace_jump_capacity)
+		
+		# Update if ship data has changed since save was created
+		if expected_cargo != cargo_capacity:
+			print("Updating cargo capacity from ships.json: ", cargo_capacity, " -> ", expected_cargo)
+			cargo_capacity = expected_cargo
+		
+		if expected_jumps != hyperspace_jump_capacity:
+			print("Updating jump capacity from ships.json: ", hyperspace_jump_capacity, " -> ", expected_jumps)
+			hyperspace_jump_capacity = expected_jumps
+			# Don't exceed new capacity
+			current_hyperspace_jumps = min(current_hyperspace_jumps, hyperspace_jump_capacity)
 	
 	print("DEBUG: After loading:")
 	print("  credits = ", credits)
@@ -279,8 +297,33 @@ func get_jumps_needed_for_full() -> int:
 # =============================================================================
 
 func set_current_ship(ship_id: String):
-	"""Set the current ship ID"""
+	"""Set the current ship ID and apply ship stats"""
 	current_ship_id = ship_id
+	
+	# Load ship stats and apply them
+	var ship_stats = ShipManager.get_ship_stats(ship_id)
+	if not ship_stats.is_empty():
+		# Update cargo capacity
+		var new_cargo_capacity = ship_stats.get("cargo_capacity", cargo_capacity)
+		if new_cargo_capacity != cargo_capacity:
+			cargo_capacity = new_cargo_capacity
+			# Ensure current cargo doesn't exceed new capacity
+			if current_cargo_weight > cargo_capacity:
+				print("WARNING: Current cargo exceeds new ship capacity!")
+			cargo_changed.emit(current_cargo_weight, cargo_capacity)
+		
+		# Update jump capacity
+		var new_jump_capacity = ship_stats.get("hyperspace_jump_capacity", hyperspace_jump_capacity)
+		if new_jump_capacity != hyperspace_jump_capacity:
+			set_jump_capacity(new_jump_capacity)
+		
+		print("Applied ship stats for: ", ship_id)
+		print("  Cargo capacity: ", cargo_capacity)
+		print("  Jump capacity: ", hyperspace_jump_capacity)
+	
+	# Also update ShipManager's current ship
+	ShipManager.set_current_ship(ship_id)
+	
 	save_to_database()
 	print("Current ship set to: ", ship_id)
 

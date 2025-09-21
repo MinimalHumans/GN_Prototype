@@ -184,23 +184,40 @@ func apply_ship_graphics():
 	"""Apply current ship's graphics to the player ship"""
 	var player_ship = UniverseManager.player_ship
 	if not player_ship:
-		print("Player ship not found, graphics will be applied when ship is available")
+		print("Player ship not found in UniverseManager, searching scene tree...")
+		# Try to find player ship in current scene tree as fallback
+		var scene_tree = Engine.get_main_loop() as SceneTree
+		if scene_tree and scene_tree.current_scene:
+			player_ship = scene_tree.current_scene.find_child("PlayerShip", true, false)
+			if not player_ship:
+				print("Player ship not found in scene tree either - deferring graphics application")
+				# Set up a timer to retry later
+				call_deferred("_retry_apply_graphics")
+				return
+	
+	# Double-check player_ship is still valid before accessing its children
+	if not player_ship or not is_instance_valid(player_ship):
+		print("Player ship became invalid - deferring graphics application")
+		call_deferred("_retry_apply_graphics")
 		return
 	
 	var sprite_path = get_ship_sprite_path(current_ship_id)
 	var sprite_node = player_ship.get_node_or_null("Sprite2D")
 	
-	if sprite_node:
+	if sprite_node and is_instance_valid(sprite_node):
 		var texture = load(sprite_path)
 		if texture:
 			sprite_node.texture = texture
-			print("Applied ship graphics: ", sprite_path)
+			print("Applied ship graphics: ", sprite_path, " to player ship")
 		else:
 			push_warning("Could not load ship sprite: " + sprite_path + " - using default")
 			# Fallback to default sprite
 			var default_texture = load("res://sprites/ships/player_ship.png")
 			if default_texture:
 				sprite_node.texture = default_texture
+	else:
+		print("Could not find valid Sprite2D node in player ship - deferring graphics application")
+		call_deferred("_retry_apply_graphics")
 
 # =============================================================================
 # SHIP PURCHASING
@@ -297,6 +314,35 @@ func try_apply_initial_ship():
 			ship_changed.emit(current_ship_id)
 		else:
 			print("Player ship still not ready - will be applied when ship registers")
+			await get_tree().process_frame
+			apply_ship_graphics()
+
+func _retry_apply_graphics():
+	"""Retry applying graphics after a delay"""
+	await get_tree().create_timer(0.5).timeout
+	
+	var player_ship = UniverseManager.player_ship
+	if not player_ship:
+		var scene_tree = Engine.get_main_loop() as SceneTree
+		if scene_tree and scene_tree.current_scene:
+			player_ship = scene_tree.current_scene.find_child("PlayerShip", true, false)
+	
+	# Validate player_ship before proceeding
+	if player_ship and is_instance_valid(player_ship):
+		var sprite_path = get_ship_sprite_path(current_ship_id)
+		var sprite_node = player_ship.get_node_or_null("Sprite2D")
+		
+		if sprite_node and is_instance_valid(sprite_node):
+			var texture = load(sprite_path)
+			if texture:
+				sprite_node.texture = texture
+				print("Applied ship graphics on retry: ", sprite_path)
+			else:
+				push_warning("Could not load ship sprite on retry: " + sprite_path)
+		else:
+			print("Still could not find valid Sprite2D node on retry")
+	else:
+		print("Player ship still not available or invalid after retry")
 
 func _on_universe_manager_ready():
 	"""Called when UniverseManager is ready"""

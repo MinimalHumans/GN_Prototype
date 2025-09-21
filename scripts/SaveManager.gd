@@ -12,6 +12,7 @@ func _ready():
 	print("SaveManager initializing...")
 	ensure_saves_directory()
 
+
 func ensure_saves_directory():
 	"""Ensure the saves directory exists"""
 	if not DirAccess.dir_exists_absolute(saves_directory):
@@ -56,6 +57,12 @@ func create_new_save(save_name: String) -> String:
 		return ""
 	
 	db.close_db()
+	
+	# Load the new save to set it as current
+	if load_save(save_id):
+		# Ensure ShipManager applies the starting ship graphics
+		call_deferred("_apply_starting_ship_graphics")
+	
 	print("Successfully created save: ", save_name)
 	return save_id
 
@@ -157,17 +164,43 @@ func create_player_tables(db: SQLite) -> bool:
 	return true
 
 func initialize_player_data(db: SQLite, save_name: String, timestamp: int) -> bool:
-	"""Initialize player data for new save"""
+	"""Initialize player data for new save using ship data from ships.json"""
+	
+	# Get starting ship from ShipManager
+	var starting_ship_id = ShipManager.ships_data.get("starting_ship", "scout_mk1")
+	var ship_stats = ShipManager.get_ship_stats(starting_ship_id)
+	
+	# Extract ship stats, with fallbacks if data is missing
+	var cargo_capacity = ship_stats.get("cargo_capacity", 100)
+	var hyperspace_jump_capacity = ship_stats.get("hyperspace_jump_capacity", 3)
+	
+	# For now, using placeholder values for hull/shields since they're not in ships.json
+	# These could be calculated from ship stats or added to ships.json later
+	var max_hull = 1000.0
+	var max_shields = 1000.0
+	
+	print("Initializing new save with ship data:")
+	print("  Ship: ", starting_ship_id)
+	print("  Cargo capacity: ", cargo_capacity)
+	print("  Jump capacity: ", hyperspace_jump_capacity)
+	
 	var insert_sql = """
 		INSERT INTO player_data (
 			save_name, created_timestamp, last_played_timestamp,
 			credits, current_system_id, current_ship_id, cargo_capacity, current_cargo_weight,
 			hyperspace_jump_capacity, current_hyperspace_jumps, system_position_x, system_position_y,
 			ship_hull, ship_max_hull, ship_shields, ship_max_shields
-		) VALUES (?, ?, ?, 50000, 1, 'scout_mk1', 100, 0, 3, 3, 0.0, 0.0, 1000.0, 1000.0, 1000.0, 1000.0);
+		) VALUES (?, ?, ?, 50000, 1, ?, ?, 0, ?, ?, 0.0, 0.0, ?, ?, ?, ?);
 	"""
 	
-	return db.query_with_bindings(insert_sql, [save_name, timestamp, timestamp])
+	var bindings = [
+		save_name, timestamp, timestamp,
+		starting_ship_id, cargo_capacity,
+		hyperspace_jump_capacity, hyperspace_jump_capacity,
+		max_hull, max_hull, max_shields, max_shields
+	]
+	
+	return db.query_with_bindings(insert_sql, bindings)
 
 # =============================================================================
 # SAVE LOADING
@@ -388,6 +421,16 @@ func load_player_data() -> Dictionary:
 # =============================================================================
 # CLEANUP
 # =============================================================================
+
+func _apply_starting_ship_graphics():
+	"""Apply starting ship graphics after new save creation"""
+	# Get the starting ship from the database
+	var player_data = load_player_data()
+	var starting_ship_id = player_data.get("current_ship_id", "scout_mk1")
+	
+	# Set the ship in ShipManager and apply graphics
+	ShipManager.set_current_ship(starting_ship_id)
+	print("Applied starting ship graphics for new save: ", starting_ship_id)
 
 func _exit_tree():
 	if save_database:
