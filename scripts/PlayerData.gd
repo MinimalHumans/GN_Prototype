@@ -10,14 +10,24 @@ signal mission_completed(mission_data)
 signal cargo_changed(current_weight, max_capacity)
 signal jumps_changed(current_jumps, max_jumps)
 
+
 # Player Stats
 var credits: int = 50000
 var cargo_capacity: int = 100  # tons
 var current_cargo_weight: int = 0
 
+# Location Management
+var current_system_id: int = 1  # Current system ID
+
+# Ship Management
+var current_ship_id: String = "scout_mk1"  # Default starting ship
+
 # Hyperspace Jump System
 var hyperspace_jump_capacity: int = 3  # Maximum jumps this ship can store
 var current_hyperspace_jumps: int = 3  # Current jumps available
+
+# Position in System
+var system_position: Vector2 = Vector2.ZERO  # Current coordinates within the system
 
 # Mission Data
 var active_missions: Array[Dictionary] = []
@@ -32,23 +42,65 @@ var max_shields: float = 1000.0
 # Mission ID counter for unique IDs
 var next_mission_id: int = 1
 
+# Flag to prevent saving before data is loaded
+var _data_loaded: bool = false
+
 func _ready():
 	print("PlayerData singleton initialized")
 	# Don't print starting values here - they'll be loaded from save
 
+func _notification(what):
+	"""Handle system notifications"""
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		print("Game closing - saving player data...")
+		save_to_database()
+		# Allow the game to close
+		get_tree().quit()
+
 func initialize_from_save():
 	"""Initialize player data from current save"""
-	var save_data = SaveManager.load_player_data()
-	if save_data.is_empty():
-		print("No save data found, using defaults")
+	print("DEBUG: initialize_from_save() called")
+	
+	# Check if SaveManager has a current save loaded
+	if SaveManager.current_save_id == "":
+		print("ERROR: No save loaded in SaveManager!")
 		return
 	
+	var save_data = SaveManager.load_player_data()
+	print("DEBUG: save_data received: ", save_data)
+	
+	if save_data.is_empty():
+		print("ERROR: No save data found, using defaults")
+		return
+	
+	print("DEBUG: Loading data from save...")
+	print("  Raw credits: ", save_data.get("credits", "NOT_FOUND"))
+	print("  Raw cargo_weight: ", save_data.get("current_cargo_weight", "NOT_FOUND"))
+	print("  Raw jumps: ", save_data.get("current_hyperspace_jumps", "NOT_FOUND"))
+
 	# Load basic stats
 	credits = save_data.get("credits", 50000)
 	cargo_capacity = save_data.get("cargo_capacity", 100)
 	current_cargo_weight = save_data.get("current_cargo_weight", 0)
+	current_system_id = save_data.get("current_system_id", 1)
+	current_ship_id = save_data.get("current_ship_id", "scout_mk1")
 	hyperspace_jump_capacity = save_data.get("hyperspace_jump_capacity", 3)
 	current_hyperspace_jumps = save_data.get("current_hyperspace_jumps", 3)
+	
+	print("DEBUG: After loading:")
+	print("  credits = ", credits)
+	print("  current_cargo_weight = ", current_cargo_weight)
+	print("  current_hyperspace_jumps = ", current_hyperspace_jumps)
+	
+	# Emit signals to update UI with loaded values
+	credits_changed.emit(credits)
+	cargo_changed.emit(current_cargo_weight, cargo_capacity)
+	jumps_changed.emit(current_hyperspace_jumps, hyperspace_jump_capacity)
+	
+	# Load position
+	var pos_x = save_data.get("system_position_x", 0.0)
+	var pos_y = save_data.get("system_position_y", 0.0)
+	system_position = Vector2(pos_x, pos_y)
 	
 	# Load ship stats
 	hull = save_data.get("ship_hull", 1000.0)
@@ -61,11 +113,22 @@ func initialize_from_save():
 	
 	print("Player data loaded from save:")
 	print("  Credits: ", credits)
+	print("  System ID: ", current_system_id)
+	print("  Ship: ", current_ship_id)
 	print("  Cargo: ", current_cargo_weight, "/", cargo_capacity)
 	print("  Jumps: ", current_hyperspace_jumps, "/", hyperspace_jump_capacity)
+	print("  Position: ", system_position)
 	print("  Hull: ", hull, "/", max_hull)
 	print("  Shields: ", shields, "/", max_shields)
 	print("  Active missions: ", active_missions.size())
+	
+	# Debug: Print raw save data to see what was actually loaded
+	print("Raw save data:")
+	print("  current_cargo_weight: ", save_data.get("current_cargo_weight", "NOT FOUND"))
+	print("  current_hyperspace_jumps: ", save_data.get("current_hyperspace_jumps", "NOT FOUND"))
+	
+	# Mark data as loaded to enable saving
+	_data_loaded = true
 
 func load_missions_from_save():
 	"""Load active missions from save database"""
@@ -91,6 +154,8 @@ func load_missions_from_save():
 			"origin_system": mission_row.origin_system_id,
 			"destination_planet": mission_row.destination_planet_id,
 			"destination_system": mission_row.destination_system_id,
+			"destination_planet_name": mission_row.get("destination_planet_name", "Unknown"),
+			"destination_system_name": mission_row.get("destination_system_name", "Unknown System"),
 			"payment": mission_row.payment,
 			"accepted_timestamp": mission_row.accepted_timestamp
 		}
@@ -104,6 +169,7 @@ func load_missions_from_save():
 
 func add_credits(amount: int):
 	"""Add credits to player account"""
+	print("DEBUG: add_credits called with amount: ", amount, " (current: ", credits, ")")
 	credits += amount
 	credits_changed.emit(credits)
 	save_to_database()
@@ -111,6 +177,7 @@ func add_credits(amount: int):
 
 func subtract_credits(amount: int) -> bool:
 	"""Subtract credits if player has enough. Returns true if successful."""
+	print("DEBUG: subtract_credits called with amount: ", amount, " (current: ", credits, ")")
 	if credits >= amount:
 		credits -= amount
 		credits_changed.emit(credits)
@@ -143,6 +210,7 @@ func can_hyperspace_jump() -> bool:
 
 func consume_hyperspace_jump() -> bool:
 	"""Consume one hyperspace jump. Returns true if successful."""
+	print("DEBUG: consume_hyperspace_jump called (current: ", current_hyperspace_jumps, ")")
 	if current_hyperspace_jumps > 0:
 		current_hyperspace_jumps -= 1
 		jumps_changed.emit(current_hyperspace_jumps, hyperspace_jump_capacity)
@@ -207,6 +275,38 @@ func get_jumps_needed_for_full() -> int:
 	return hyperspace_jump_capacity - current_hyperspace_jumps
 
 # =============================================================================
+# SHIP MANAGEMENT
+# =============================================================================
+
+func set_current_ship(ship_id: String):
+	"""Set the current ship ID"""
+	current_ship_id = ship_id
+	save_to_database()
+	print("Current ship set to: ", ship_id)
+
+func get_current_ship() -> String:
+	"""Get the current ship ID"""
+	return current_ship_id
+
+# =============================================================================
+# POSITION MANAGEMENT
+# =============================================================================
+
+func set_system_position(position: Vector2):
+	"""Set current position within the system"""
+	system_position = position
+	save_to_database()
+
+func get_system_position() -> Vector2:
+	"""Get current position within the system"""
+	return system_position
+
+func move_to_position(position: Vector2):
+	"""Move to a new position within the system"""
+	set_system_position(position)
+	print("Moved to position: ", position)
+
+# =============================================================================
 # CARGO MANAGEMENT
 # =============================================================================
 
@@ -220,9 +320,11 @@ func can_accept_cargo(weight: int) -> bool:
 
 func add_cargo(weight: int) -> bool:
 	"""Add cargo weight if there's space. Returns true if successful."""
+	print("DEBUG: add_cargo called with weight: ", weight, " (current: ", current_cargo_weight, ")")
 	if can_accept_cargo(weight):
 		current_cargo_weight += weight
 		cargo_changed.emit(current_cargo_weight, cargo_capacity)
+		save_to_database()
 		print("Cargo loaded: +", weight, " tons (", current_cargo_weight, "/", cargo_capacity, ")")
 		return true
 	else:
@@ -231,8 +333,10 @@ func add_cargo(weight: int) -> bool:
 
 func remove_cargo(weight: int):
 	"""Remove cargo weight (used when completing missions)"""
+	print("DEBUG: remove_cargo called with weight: ", weight, " (current: ", current_cargo_weight, ")")
 	current_cargo_weight = max(0, current_cargo_weight - weight)
 	cargo_changed.emit(current_cargo_weight, cargo_capacity)
+	save_to_database()
 	print("Cargo unloaded: -", weight, " tons (", current_cargo_weight, "/", cargo_capacity, ")")
 
 # =============================================================================
@@ -329,32 +433,53 @@ func debug_print_status():
 	"""Print current player status for debugging"""
 	print("=== PLAYER STATUS ===")
 	print("Credits: ", credits)
+	print("Ship: ", current_ship_id)
 	print("Cargo: ", current_cargo_weight, "/", cargo_capacity, " tons")
 	print("Hyperspace jumps: ", current_hyperspace_jumps, "/", hyperspace_jump_capacity)
+	print("Position: ", system_position)
 	print("Active missions: ", active_missions.size())
 	print("Completed missions: ", completed_missions.size())
 	print("=====================")
 
 func set_current_system(system_id: int):
 	"""Set current system and save to database"""
+	current_system_id = system_id
 	save_to_database()
+	print("Current system set to: ", system_id)
+
+func get_current_system() -> int:
+	"""Get current system ID"""
+	return current_system_id
 
 func save_to_database():
 	"""Save current player state to database"""
+	# Don't save until data has been loaded from save file
+	if not _data_loaded:
+		print("DEBUG: Skipping save - data not yet loaded from save file")
+		return
+	
 	var player_data = {
 		"credits": credits,
-		"current_system_id": UniverseManager.current_system_id,
+		"current_system_id": current_system_id,
+		"current_ship_id": current_ship_id,
 		"cargo_capacity": cargo_capacity,
 		"current_cargo_weight": current_cargo_weight,
 		"hyperspace_jump_capacity": hyperspace_jump_capacity,
 		"current_hyperspace_jumps": current_hyperspace_jumps,
+		"system_position_x": system_position.x,
+		"system_position_y": system_position.y,
 		"ship_hull": hull,
 		"ship_max_hull": max_hull,
 		"ship_shields": shields,
 		"ship_max_shields": max_shields
 	}
 	
-	SaveManager.save_player_data(player_data)
+	var success = SaveManager.save_player_data(player_data)
+	if not success:
+		print("ERROR: Failed to save player data!")
+		print("  Credits: ", credits)
+		print("  Cargo: ", current_cargo_weight, "/", cargo_capacity)
+		print("  Jumps: ", current_hyperspace_jumps, "/", hyperspace_jump_capacity)
 
 func save_mission_to_database(mission_data: Dictionary):
 	"""Save a mission to the database"""
@@ -365,8 +490,9 @@ func save_mission_to_database(mission_data: Dictionary):
 	var insert_sql = """
 		INSERT INTO player_missions (
 			id, status, cargo_type, cargo_weight, origin_planet_id, origin_system_id,
-			destination_planet_id, destination_system_id, payment, accepted_timestamp
-		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+			destination_planet_id, destination_system_id, destination_planet_name, 
+			destination_system_name, payment, accepted_timestamp
+		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 	"""
 	
 	var timestamp = Time.get_unix_time_from_system()
@@ -379,6 +505,8 @@ func save_mission_to_database(mission_data: Dictionary):
 		mission_data.get("origin_system", -1),
 		mission_data.get("destination_planet", -1),
 		mission_data.get("destination_system", -1),
+		mission_data.get("destination_planet_name", "Unknown"),
+		mission_data.get("destination_system_name", "Unknown System"),
 		mission_data.get("payment", 0),
 		timestamp
 	]

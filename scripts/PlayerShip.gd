@@ -54,6 +54,8 @@ var entry_position: Vector2 = Vector2.ZERO
 var entry_target: Vector2 = Vector2.ZERO
 var jump_direction: Vector2 = Vector2.ZERO
 var map_direction: Vector2 = Vector2.ZERO  # Store the direction from the map
+var position_update_timer: float = 0.0
+var position_update_interval: float = 1.0  # Update position every 1 second
 
 func _ready():
 	UniverseManager.player_ship = self
@@ -229,6 +231,10 @@ func _integrate_forces(state):
 		handle_hyperspace_sequence(state)
 	
 	limit_velocity(state)
+	
+	# Update player position in PlayerData periodically (not every frame for performance)
+	if hyperspace_state == HyperspaceState.NORMAL:
+		update_position_tracking()
 
 func handle_input(state):
 	# Rotation
@@ -865,6 +871,14 @@ func show_no_jumps_notification():
 	# Clean up when closed
 	popup.confirmed.connect(func(): popup.queue_free())
 
+func update_position_tracking():
+	"""Update player position in PlayerData periodically"""
+	position_update_timer += get_physics_process_delta_time()
+	
+	if position_update_timer >= position_update_interval:
+		position_update_timer = 0.0
+		PlayerData.set_system_position(global_position)
+
 func complete_hyperspace_sequence():
 	"""Complete the hyperspace sequence and return control to player"""
 	print("Hyperspace sequence complete")
@@ -872,6 +886,9 @@ func complete_hyperspace_sequence():
 	# Re-enable camera smoothing
 	if camera:
 		camera.position_smoothing_enabled = true
+	
+	# Update position immediately after hyperspace
+	PlayerData.set_system_position(global_position)
 	
 	# Reset to normal state - FIXED: Reset to integer -1
 	hyperspace_state = HyperspaceState.NORMAL

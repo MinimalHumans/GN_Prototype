@@ -40,8 +40,17 @@ func setup_system(system_data: Dictionary):
 	if player and player_spawn:
 		# Check if player is in hyperspace sequence
 		if player.hyperspace_state == player.HyperspaceState.NORMAL:
-			# Normal spawn (e.g., game start)
-			player.global_position = player_spawn.global_position
+			# Check if we have a saved position to restore
+			var saved_position = PlayerData.get_system_position()
+			if saved_position != Vector2.ZERO:
+				# Restore saved position
+				player.global_position = saved_position
+				print("Restored player position from save: ", saved_position)
+			else:
+				# Normal spawn
+				player.global_position = player_spawn.global_position
+				print("Using spawn position: ", player_spawn.global_position)
+			
 			player.linear_velocity = Vector2.ZERO
 			player.angular_velocity = 0.0
 			
