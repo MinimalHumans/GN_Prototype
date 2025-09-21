@@ -225,9 +225,23 @@ func spawn_initial_npcs():
 
 func spawn_existing_npc():
 	"""Spawn an NPC that's already been in the system"""
+	var current_system_at_start = UniverseManager.current_system_id
+
 	var npc_ship = create_npc_ship()
 	if not npc_ship:
 		return
+
+	get_parent().call_deferred("add_child", npc_ship)
+	current_npcs.append(npc_ship)
+
+	await get_tree().process_frame
+
+	# Check if system changed during spawn
+	if UniverseManager.current_system_id != current_system_at_start:
+		return  # System changed, NPC was cleaned up
+
+	if not is_instance_valid(npc_ship):
+		return  # NPC was freed somehow
 	
 	# Use call_deferred to avoid the "busy setting up children" error
 	get_parent().call_deferred("add_child", npc_ship)
