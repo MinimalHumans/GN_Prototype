@@ -46,6 +46,11 @@ var delivery_destinations: Dictionary = {}  # system_id -> delivery_count
 var delivery_ring_color = Color(0.0, 1.0, 1.0, 0.8)  # Cyan ring
 var delivery_icon_color = Color(0.0, 1.0, 1.0, 1.0)  # Cyan icon
 
+# Trackpad crap
+var trackpad_dragging: bool = false
+var trackpad_sensitivity: float = 1.5
+var scroll_zoom_speed: float = 0.15
+
 
 func _ready():
 	load_systems_from_database()
@@ -425,13 +430,22 @@ func draw_system_label(screen_pos: Vector2, system_name: String, radius: float):
 func draw_instructions(canvas_size: Vector2):
 	"""Draw control instructions with delivery legend"""
 	var font = ThemeDB.fallback_font
-	var instruction_text = "Mouse Wheel: Zoom  |  Middle Click + Drag: Pan  |  Left Click: Select System"
-	var instruction_size = font.get_string_size(instruction_text, HORIZONTAL_ALIGNMENT_CENTER, -1, 12)
-	var instruction_pos = Vector2((canvas_size.x - instruction_size.x) / 2, canvas_size.y - 30)
+	var instruction_text = "Scroll: Zoom | Left+Drag/Right+Drag: Pan | Left Click: Select | F: Fit View | +/-: Zoom | 0: Reset"
+	var font_size = 11  # Slightly smaller to fit more text
+	var instruction_size = font.get_string_size(instruction_text, HORIZONTAL_ALIGNMENT_CENTER, -1, font_size)
+	var instruction_pos = Vector2((canvas_size.x - instruction_size.x) / 2, canvas_size.y - 45)
 	
 	# Draw main instructions
-	map_canvas.draw_string(font, instruction_pos + Vector2(1, 1), instruction_text, HORIZONTAL_ALIGNMENT_CENTER, -1, 12, Color.BLACK)
-	map_canvas.draw_string(font, instruction_pos, instruction_text, HORIZONTAL_ALIGNMENT_CENTER, -1, 12, Color.YELLOW)
+	map_canvas.draw_string(font, instruction_pos + Vector2(1, 1), instruction_text, HORIZONTAL_ALIGNMENT_CENTER, -1, font_size, Color.BLACK)
+	map_canvas.draw_string(font, instruction_pos, instruction_text, HORIZONTAL_ALIGNMENT_CENTER, -1, font_size, Color.YELLOW)
+	
+	# Draw trackpad-specific tip
+	var trackpad_text = "MacBook: Two-finger scroll to zoom, pinch gesture supported"
+	var trackpad_size = font.get_string_size(trackpad_text, HORIZONTAL_ALIGNMENT_CENTER, -1, 10)
+	var trackpad_pos = Vector2((canvas_size.x - trackpad_size.x) / 2, canvas_size.y - 30)
+	
+	map_canvas.draw_string(font, trackpad_pos + Vector2(1, 1), trackpad_text, HORIZONTAL_ALIGNMENT_CENTER, -1, 10, Color.BLACK)
+	map_canvas.draw_string(font, trackpad_pos, trackpad_text, HORIZONTAL_ALIGNMENT_CENTER, -1, 10, Color.CYAN)
 	
 	# Draw delivery legend
 	var legend_text = "Cyan Ring = Active Deliveries"
@@ -440,6 +454,7 @@ func draw_instructions(canvas_size: Vector2):
 	
 	map_canvas.draw_string(font, legend_pos + Vector2(1, 1), legend_text, HORIZONTAL_ALIGNMENT_CENTER, -1, 10, Color.BLACK)
 	map_canvas.draw_string(font, legend_pos, legend_text, HORIZONTAL_ALIGNMENT_CENTER, -1, 10, delivery_ring_color)
+
 
 # Add method to refresh delivery data when missions change
 func refresh_delivery_indicators():
@@ -483,13 +498,76 @@ func world_to_screen(world_pos: Vector2) -> Vector2:
 # =============================================================================
 # MOUSE INTERACTION (adapted from test)
 # =============================================================================
+func handle_mouse_button_enhanced(event: InputEventMouseButton):
+	"""Handle mouse button events - Enhanced with trackpad support"""
+	match event.button_index:
+		MOUSE_BUTTON_WHEEL_UP:
+			zoom_at_point(event.position, 1.0 + scroll_zoom_speed)
+		MOUSE_BUTTON_WHEEL_DOWN:
+			zoom_at_point(event.position, 1.0 - scroll_zoom_speed)
+		MOUSE_BUTTON_MIDDLE:
+			is_panning = event.pressed
+			last_pan_position = event.position
+		MOUSE_BUTTON_LEFT:
+			if event.pressed:
+				# Check for system click first
+				handle_system_click(event.position)
+				# Also start trackpad dragging for single-finger pan
+				trackpad_dragging = true
+				last_pan_position = event.position
+			else:
+				trackpad_dragging = false
+		MOUSE_BUTTON_RIGHT:
+			# Right-click for alternative panning (useful on trackpads)
+			if event.pressed:
+				is_panning = true
+				last_pan_position = event.position
+			else:
+				is_panning = false
+
+# Replace your existing handle_mouse_motion() method with this enhanced version:
+func handle_mouse_motion_enhanced(event: InputEventMouseMotion):
+	"""Handle mouse motion for panning - Enhanced with trackpad support"""
+	if is_panning:
+		# Middle-click or right-click panning (existing functionality)
+		pan_offset += event.position - last_pan_position
+		last_pan_position = event.position
+		map_canvas.queue_redraw()
+	elif trackpad_dragging and event.button_mask & MOUSE_BUTTON_MASK_LEFT:
+		# Left-click drag panning (new - better for trackpads)
+		var delta = (event.position - last_pan_position) * trackpad_sensitivity
+		pan_offset += delta
+		last_pan_position = event.position
+		map_canvas.queue_redraw()
+
+func handle_trackpad_pan(event: InputEventPanGesture):
+	"""Handle two-finger trackpad panning gestures"""
+	var pan_delta = event.delta * trackpad_sensitivity * 30.0  # Adjust multiplier as needed
+	pan_offset += pan_delta
+	map_canvas.queue_redraw()
+
+func handle_trackpad_zoom(event: InputEventMagnifyGesture):
+	"""Handle two-finger trackpad pinch-to-zoom gestures"""
+	if not map_canvas:
+		return
+	
+	# Get mouse position as zoom center
+	var zoom_center = map_canvas.get_local_mouse_position()
+	var zoom_factor = 1.0 + (event.factor - 1.0) * 0.5  # Reduce sensitivity
+	
+	zoom_at_point(zoom_center, zoom_factor)
 
 func _on_map_input(event):
-	"""Handle mouse input on the map canvas"""
+	"""Handle mouse input on the map canvas - Enhanced with trackpad support"""
 	if event is InputEventMouseButton:
-		handle_mouse_button(event)
+		handle_mouse_button_enhanced(event)
 	elif event is InputEventMouseMotion:
-		handle_mouse_motion(event)
+		handle_mouse_motion_enhanced(event)
+	# Add trackpad gesture support
+	elif event is InputEventPanGesture:
+		handle_trackpad_pan(event)
+	elif event is InputEventMagnifyGesture:
+		handle_trackpad_zoom(event)
 
 func handle_mouse_button(event: InputEventMouseButton):
 	"""Handle mouse button events"""
@@ -689,13 +767,44 @@ func _on_cancel_pressed():
 	hide_map()
 
 func _input(event):
-	"""Handle global input when map is visible"""
+	"""Handle global input when map is visible - Enhanced with keyboard shortcuts"""
 	if not visible:
 		return
 	
 	if event.is_action_pressed("ui_cancel"):
 		hide_map()
 		get_viewport().set_input_as_handled()
+	
+	# Add keyboard shortcuts for zoom (helpful when trackpad isn't working well)
+	elif event is InputEventKey and event.pressed:
+		match event.keycode:
+			KEY_EQUAL, KEY_KP_ADD:  # + or = key
+				var center = map_canvas.size / 2 if map_canvas else Vector2.ZERO
+				zoom_at_point(center, 1.2)
+				get_viewport().set_input_as_handled()
+			KEY_MINUS, KEY_KP_SUBTRACT:  # - key
+				var center = map_canvas.size / 2 if map_canvas else Vector2.ZERO
+				zoom_at_point(center, 0.8)
+				get_viewport().set_input_as_handled()
+			KEY_0, KEY_KP_0:  # Reset zoom and pan
+				reset_view()
+				get_viewport().set_input_as_handled()
+			KEY_F:  # F to fit all systems (like "fit to view")
+				fit_all_systems()
+				get_viewport().set_input_as_handled()
+				
+func reset_view():
+	"""Reset zoom and pan to initial state"""
+	setup_initial_view()
+	if map_canvas:
+		map_canvas.queue_redraw()
+
+func fit_all_systems():
+	"""Fit all systems in view (same as initial setup but can be called anytime)"""
+	setup_initial_view()
+	if map_canvas:
+		map_canvas.queue_redraw()
+
 
 # =============================================================================
 # DEBUG METHODS
