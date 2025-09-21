@@ -12,6 +12,14 @@ class_name SystemScene
 
 func _ready():
 	add_to_group("system_scene")  # Add to group for easy finding
+	
+	# Initialize from save data
+	if not UniverseManager.initialize_from_save():
+		print("Failed to initialize UniverseManager from save")
+		return
+	
+	PlayerData.initialize_from_save()
+	
 	UniverseManager.system_changed.connect(_on_system_changed)
 	setup_system(UniverseManager.get_current_system())
 

@@ -1,0 +1,149 @@
+[gd_scene load_steps=3 format=3 uid="uid://uvoyj6ot2ghq"]
+
+[ext_resource type="Script" uid="uid://cwfv4t7fqhcy0" path="res://scripts/StartMenu.gd" id="1_abc123"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1"]
+bg_color = Color(0.1, 0.1, 0.2, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.3, 0.5, 0.8, 1)
+
+[node name="StartMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_abc123")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.05, 0.05, 0.1, 1)
+
+[node name="MainContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -200.0
+offset_right = 300.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="MainContainer"]
+layout_mode = 2
+text = "GRAVITY NEXUS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Subtitle" type="Label" parent="MainContainer"]
+layout_mode = 2
+text = "Space Trading & Combat Simulator"
+horizontal_alignment = 1
+
+[node name="Spacer1" type="Control" parent="MainContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="ButtonContainer" type="VBoxContainer" parent="MainContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="NewGameButton" type="Button" parent="MainContainer/ButtonContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+text = "NEW GAME"
+
+[node name="ContinueButton" type="Button" parent="MainContainer/ButtonContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+text = "CONTINUE"
+
+[node name="LoadGameButton" type="Button" parent="MainContainer/ButtonContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+text = "LOAD GAME"
+
+[node name="QuitButton" type="Button" parent="MainContainer/ButtonContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+text = "QUIT"
+
+[node name="Spacer2" type="Control" parent="MainContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="SaveListContainer" type="VBoxContainer" parent="MainContainer"]
+visible = false
+layout_mode = 2
+
+[node name="SaveListLabel" type="Label" parent="MainContainer/SaveListContainer"]
+layout_mode = 2
+text = "Select Save Game:"
+horizontal_alignment = 1
+
+[node name="SaveList" type="ItemList" parent="MainContainer/SaveListContainer"]
+custom_minimum_size = Vector2(400, 200)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_1")
+
+[node name="SaveButtonContainer" type="HBoxContainer" parent="MainContainer/SaveListContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="LoadSelectedButton" type="Button" parent="MainContainer/SaveListContainer/SaveButtonContainer"]
+layout_mode = 2
+text = "LOAD SELECTED"
+
+[node name="DeleteSaveButton" type="Button" parent="MainContainer/SaveListContainer/SaveButtonContainer"]
+layout_mode = 2
+text = "DELETE SAVE"
+
+[node name="BackButton" type="Button" parent="MainContainer/SaveListContainer/SaveButtonContainer"]
+layout_mode = 2
+text = "BACK"
+
+[node name="NewGameDialog" type="AcceptDialog" parent="."]
+title = "New Game"
+size = Vector2i(400, 200)
+
+[node name="NewGameContainer" type="VBoxContainer" parent="NewGameDialog"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -36.0
+
+[node name="Label" type="Label" parent="NewGameDialog/NewGameContainer"]
+layout_mode = 2
+text = "Enter save game name:"
+
+[node name="SaveNameInput" type="LineEdit" parent="NewGameDialog/NewGameContainer"]
+layout_mode = 2
+placeholder_text = "My Save Game"
+
+[node name="ButtonContainer" type="HBoxContainer" parent="NewGameDialog/NewGameContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="CreateButton" type="Button" parent="NewGameDialog/NewGameContainer/ButtonContainer"]
+layout_mode = 2
+text = "CREATE"
+
+[node name="CancelButton" type="Button" parent="NewGameDialog/NewGameContainer/ButtonContainer"]
+layout_mode = 2
+text = "CANCEL"

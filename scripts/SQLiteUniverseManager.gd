@@ -13,7 +13,8 @@ var player_ship: Node = null
 
 # Database connection
 var db: SQLite
-var db_path: String = "res://universe.db"
+# db_path is set when game is created or loaded
+var db_path: String = ""
 
 # Caching system - integer keys
 var universe_data: Dictionary = {"systems": {}, "governments": {}}
@@ -32,30 +33,32 @@ var connection_graph: Dictionary = {}  # int -> Array[int] (bidirectional connec
 var current_system_missions: Dictionary = {}  # int (planet_id) -> Array[mission_data]
 
 func _ready():
-	print("SQLite UniverseManager initializing with integer ID system...")
-	initialize_database()
+	print("SQLite UniverseManager; standing by")
+
+func initialize_from_save():
+	"""Initialize universe manager after save is loaded"""
+	print("SQLite UniverseManager initializing from save.")
+	if not initialize_database():
+		return false
+
 	load_governments()
-	
-	# Build connection graph on startup
 	build_connection_graph()
+	var player_data = SaveManager.load_player_data()
+	var starting_system_id = player_data.get("current_system_id", 1)
 	
-	# Start in system with ID 1 (should be your starting system)
-	var starting_system_id = get_system_id_by_name("Helios")
-	if starting_system_id == -1:
-		starting_system_id = 1  # Fallback to first system
 	change_system(starting_system_id)
+	return true
 
 # =============================================================================
 # DATABASE INITIALIZATION
 # =============================================================================
 
 func initialize_database() -> bool:
-	"""Initialize SQLite database connection"""
-	db = SQLite.new()
-	db.path = db_path
+	"""Initialize SQLite database connection using current save"""
+	db = SaveManager.get_current_save_database()
 	
-	if not db.open_db():
-		push_error("Failed to open universe database at: " + db_path)
+	if not db:
+		push_error("No save database available from SaveManager")
 		return false
 	
 	# Enable foreign keys and optimize for read performance  
@@ -63,7 +66,7 @@ func initialize_database() -> bool:
 	db.query("PRAGMA journal_mode = WAL;")
 	db.query("PRAGMA cache_size = -64000;")
 	
-	print("Universe database connected successfully")
+	print("Universe database connected successfully from save")
 	return true
 
 func load_governments():
@@ -317,6 +320,9 @@ func change_system(system_id: int):
 	
 	# Update universe_data for HyperspaceMap compatibility (use int keys)
 	universe_data.systems[system_id] = system_data
+	
+	# Save current system to player data
+	PlayerData.set_current_system(system_id)
 	
 	generate_system_missions()
 	system_changed.emit(system_id)
@@ -712,6 +718,5 @@ func debug_print_current_system():
 # =============================================================================
 
 func _exit_tree():
-	if db:
-		db.close_db()
-		print("Universe database connection closed")
+	# Don't close database here - SaveManager handles it
+	print("Universe manager shutting down")

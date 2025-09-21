@@ -23,14 +23,80 @@ var current_hyperspace_jumps: int = 3  # Current jumps available
 var active_missions: Array[Dictionary] = []
 var completed_missions: Array[Dictionary] = []
 
+# Ship stats
+var hull: float = 1000.0
+var max_hull: float = 1000.0
+var shields: float = 1000.0
+var max_shields: float = 1000.0
+
 # Mission ID counter for unique IDs
 var next_mission_id: int = 1
 
 func _ready():
 	print("PlayerData singleton initialized")
-	print("Starting credits: ", credits)
-	print("Cargo capacity: ", cargo_capacity, " tons")
-	print("Hyperspace jumps: ", current_hyperspace_jumps, "/", hyperspace_jump_capacity)
+	# Don't print starting values here - they'll be loaded from save
+
+func initialize_from_save():
+	"""Initialize player data from current save"""
+	var save_data = SaveManager.load_player_data()
+	if save_data.is_empty():
+		print("No save data found, using defaults")
+		return
+	
+	# Load basic stats
+	credits = save_data.get("credits", 50000)
+	cargo_capacity = save_data.get("cargo_capacity", 100)
+	current_cargo_weight = save_data.get("current_cargo_weight", 0)
+	hyperspace_jump_capacity = save_data.get("hyperspace_jump_capacity", 3)
+	current_hyperspace_jumps = save_data.get("current_hyperspace_jumps", 3)
+	
+	# Load ship stats
+	hull = save_data.get("ship_hull", 1000.0)
+	max_hull = save_data.get("ship_max_hull", 1000.0)
+	shields = save_data.get("ship_shields", 1000.0)
+	max_shields = save_data.get("ship_max_shields", 1000.0)
+	
+	# Load missions
+	load_missions_from_save()
+	
+	print("Player data loaded from save:")
+	print("  Credits: ", credits)
+	print("  Cargo: ", current_cargo_weight, "/", cargo_capacity)
+	print("  Jumps: ", current_hyperspace_jumps, "/", hyperspace_jump_capacity)
+	print("  Hull: ", hull, "/", max_hull)
+	print("  Shields: ", shields, "/", max_shields)
+	print("  Active missions: ", active_missions.size())
+
+func load_missions_from_save():
+	"""Load active missions from save database"""
+	var db = SaveManager.get_current_save_database()
+	if not db:
+		return
+	
+	var query_sql = """
+		SELECT * FROM player_missions WHERE status = 'active';
+	"""
+	
+	db.query(query_sql)
+	var results = db.query_result
+	
+	active_missions.clear()
+	for mission_row in results:
+		var mission_data = {
+			"id": mission_row.id,
+			"status": mission_row.status,
+			"cargo_type": mission_row.cargo_type,
+			"cargo_weight": mission_row.cargo_weight,
+			"origin_planet": mission_row.origin_planet_id,
+			"origin_system": mission_row.origin_system_id,
+			"destination_planet": mission_row.destination_planet_id,
+			"destination_system": mission_row.destination_system_id,
+			"payment": mission_row.payment,
+			"accepted_timestamp": mission_row.accepted_timestamp
+		}
+		active_missions.append(mission_data)
+	
+	print("Loaded ", active_missions.size(), " active missions from save")
 
 # =============================================================================
 # CREDITS MANAGEMENT
@@ -40,6 +106,7 @@ func add_credits(amount: int):
 	"""Add credits to player account"""
 	credits += amount
 	credits_changed.emit(credits)
+	save_to_database()
 	print("Credits added: +", amount, " (Total: ", credits, ")")
 
 func subtract_credits(amount: int) -> bool:
@@ -47,6 +114,7 @@ func subtract_credits(amount: int) -> bool:
 	if credits >= amount:
 		credits -= amount
 		credits_changed.emit(credits)
+		save_to_database()
 		print("Credits spent: -", amount, " (Total: ", credits, ")")
 		return true
 	else:
@@ -78,6 +146,7 @@ func consume_hyperspace_jump() -> bool:
 	if current_hyperspace_jumps > 0:
 		current_hyperspace_jumps -= 1
 		jumps_changed.emit(current_hyperspace_jumps, hyperspace_jump_capacity)
+		save_to_database()
 		print("Hyperspace jump consumed. Remaining: ", current_hyperspace_jumps, "/", hyperspace_jump_capacity)
 		return true
 	else:
@@ -187,6 +256,9 @@ func accept_mission(mission_data: Dictionary) -> bool:
 	add_cargo(cargo_weight)
 	active_missions.append(mission_data)
 	
+	# Save mission to database
+	save_mission_to_database(mission_data)
+	
 	# Remove mission from available missions in the current system
 	var origin_planet = mission_data.get("origin_planet", -1)
 	if origin_planet != -1:
@@ -209,6 +281,9 @@ func complete_mission(mission_id: String) -> bool:
 			# Remove cargo
 			var cargo_weight = mission.get("cargo_weight", 0)
 			remove_cargo(cargo_weight)
+			
+			# Update mission status in database
+			update_mission_status_in_database(mission_id, "completed")
 			
 			# Move mission to completed list
 			mission["status"] = "completed"
@@ -259,6 +334,70 @@ func debug_print_status():
 	print("Active missions: ", active_missions.size())
 	print("Completed missions: ", completed_missions.size())
 	print("=====================")
+
+func set_current_system(system_id: int):
+	"""Set current system and save to database"""
+	save_to_database()
+
+func save_to_database():
+	"""Save current player state to database"""
+	var player_data = {
+		"credits": credits,
+		"current_system_id": UniverseManager.current_system_id,
+		"cargo_capacity": cargo_capacity,
+		"current_cargo_weight": current_cargo_weight,
+		"hyperspace_jump_capacity": hyperspace_jump_capacity,
+		"current_hyperspace_jumps": current_hyperspace_jumps,
+		"ship_hull": hull,
+		"ship_max_hull": max_hull,
+		"ship_shields": shields,
+		"ship_max_shields": max_shields
+	}
+	
+	SaveManager.save_player_data(player_data)
+
+func save_mission_to_database(mission_data: Dictionary):
+	"""Save a mission to the database"""
+	var db = SaveManager.get_current_save_database()
+	if not db:
+		return
+	
+	var insert_sql = """
+		INSERT INTO player_missions (
+			id, status, cargo_type, cargo_weight, origin_planet_id, origin_system_id,
+			destination_planet_id, destination_system_id, payment, accepted_timestamp
+		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+	"""
+	
+	var timestamp = Time.get_unix_time_from_system()
+	var bindings = [
+		mission_data.get("id", ""),
+		mission_data.get("status", "active"),
+		mission_data.get("cargo_type", ""),
+		mission_data.get("cargo_weight", 0),
+		mission_data.get("origin_planet", -1),
+		mission_data.get("origin_system", -1),
+		mission_data.get("destination_planet", -1),
+		mission_data.get("destination_system", -1),
+		mission_data.get("payment", 0),
+		timestamp
+	]
+	
+	db.query_with_bindings(insert_sql, bindings)
+
+func update_mission_status_in_database(mission_id: String, status: String):
+	"""Update mission status in database"""
+	var db = SaveManager.get_current_save_database()
+	if not db:
+		return
+	
+	var update_sql = """
+		UPDATE player_missions SET status = ?, completed_timestamp = ?
+		WHERE id = ?;
+	"""
+	
+	var timestamp = Time.get_unix_time_from_system() if status == "completed" else null
+	db.query_with_bindings(update_sql, [status, timestamp, mission_id])
 
 func debug_add_test_mission():
 	"""Add a test mission for debugging"""

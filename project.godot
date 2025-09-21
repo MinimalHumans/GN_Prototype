@@ -11,12 +11,13 @@ config_version=5
 [application]
 
 config/name="gravity_nexus_prototype"
-run/main_scene="uid://bxvy6rfv2kbi4"
+run/main_scene="res://scenes/StartMenu.tscn"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
+SaveManager="*res://scripts/SaveManager.gd"
 UniverseManager="*res://scripts/SQLiteUniverseManager.gd"
 PlayerData="*res://scripts/PlayerData.gd"
 ShipManager="*res://scripts/ShipManager.gd"
