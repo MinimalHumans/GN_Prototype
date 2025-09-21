@@ -18,3 +18,9 @@ mono_crash.*.json
 *.db-shm
 *.db-wal
 *.TMP
+
+# Pycharm (used by jesse for change control)
+.idea
+venv/
+scripts/tools/venv/
+
