@@ -418,7 +418,7 @@ func load_system_data(system_id: int) -> Dictionary:
 	if system_cache.has(system_id):
 		return system_cache[system_id]
 	
-	print("Loading system from database - ID: ", system_id)
+	#print("Loading system from database - ID: ", system_id)
 	
 	var system_query = """
 		SELECT 
@@ -478,7 +478,7 @@ func load_system_bodies(system_id: int) -> Array:
 	db.query_with_bindings(bodies_query, [system_id])
 	var bodies_results = db.query_result
 	
-	print("Loading celestial bodies for system ID ", system_id, " - Found: ", bodies_results.size())
+	#print("Loading celestial bodies for system ID ", system_id, " - Found: ", bodies_results.size())
 	
 	var celestial_bodies = []
 	
@@ -506,7 +506,7 @@ func load_system_bodies(system_id: int) -> Array:
 			body_data["shipyard"] = {"available_ships": [body_row.shipyard_package]}
 		
 		celestial_bodies.append(body_data)
-		print("  Loaded body: ", body_data.name, " (ID: ", body_data.id, ") with services: ", services)
+		# print("  Loaded body: ", body_data.name, " (ID: ", body_data.id, ") with services: ", services)
 	
 	return celestial_bodies
 
@@ -558,7 +558,7 @@ func get_system_connections(system_id: int) -> Array[int]:
 	# Cache the result
 	connection_cache[system_id] = connections
 	
-	print("Loaded connections for system ID ", system_id, ": ", connections)
+	#print("Loaded connections for system ID ", system_id, ": ", connections)
 	return connections
 
 func build_starfield_config(system_row: Dictionary) -> Dictionary:
