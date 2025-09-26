@@ -19,6 +19,10 @@ var planet_id = celestial_data.get("id", -1)       # Now integer
 # Generate seeds using integer IDs  
 var base_seed = hash(str(planet_id) + str(system_id)) % 1000
 
+# Visited tracking
+var has_been_visited: bool = false
+var interaction_area: Area2D = null
+
 func _ready():
 	if celestial_data.has("type") and celestial_data.type == "planet":
 		create_procedural_planet()
@@ -27,6 +31,14 @@ func _ready():
 	
 	if celestial_data.has("name"):
 		label.text = celestial_data.name
+	
+	# Setup interaction area for visited tracking
+	setup_interaction_area()
+	
+	# Check if already visited from database
+	var body_id = celestial_data.get("id", -1)
+	if body_id != -1:
+		has_been_visited = UniverseManager.is_celestial_body_visited(body_id)
 
 func create_procedural_planet():
 	"""Create a procedural planet using the library system with integrated animations"""
@@ -185,11 +197,49 @@ func update_collision_shape(planet_size: Vector2):
 		var circle_shape = collision_shape.shape as CircleShape2D
 		circle_shape.radius = planet_size.x / 8  # Reasonable collision size
 	
-	# Update interaction area
-	var interaction_area = $CollisionShape2D/InteractionArea/CollisionShape2D
-	if interaction_area and interaction_area.shape is CircleShape2D:
-		var interaction_circle = interaction_area.shape as CircleShape2D
-		interaction_circle.radius = planet_size.x / 2  # Larger interaction range
+	# Update interaction area for visited tracking
+	if interaction_area:
+		var interaction_collision = interaction_area.get_node("CollisionShape2D")
+		if interaction_collision and interaction_collision.shape is CircleShape2D:
+			var interaction_circle = interaction_collision.shape as CircleShape2D
+			interaction_circle.radius = planet_size.x / 2  # Larger interaction range
+
+func setup_interaction_area():
+	"""Setup interaction area for detecting when player comes within range"""
+	interaction_area = Area2D.new()
+	interaction_area.name = "InteractionArea"
+	
+	var collision_shape = CollisionShape2D.new()
+	var circle_shape = CircleShape2D.new()
+	circle_shape.radius = 200.0  # Default interaction range
+	collision_shape.shape = circle_shape
+	
+	interaction_area.add_child(collision_shape)
+	add_child(interaction_area)
+	
+	# Connect signals for player detection
+	interaction_area.body_entered.connect(_on_player_entered_range)
+	
+	# Set collision layers/masks to detect player
+	interaction_area.collision_layer = 0  # Don't collide with anything
+	interaction_area.collision_mask = 1   # Detect player (assuming player is on layer 1)
+
+func _on_player_entered_range(body: Node2D):
+	"""Called when player enters interaction range"""
+	# Check if it's the player ship
+	if body.has_method("get_ship_id") or body.name.contains("Player"):
+		mark_as_visited()
+
+func mark_as_visited():
+	"""Mark this celestial body as visited"""
+	if has_been_visited:
+		return  # Already marked as visited
+	
+	var body_id = celestial_data.get("id", -1)
+	if body_id != -1:
+		UniverseManager.mark_celestial_body_visited(body_id)
+		has_been_visited = true
+		print("Player discovered: ", celestial_data.get("name", "Unknown Body"))
 
 func load_sprite(sprite_path: String):
 	"""Load static sprite for non-planet celestial bodies"""
@@ -202,6 +252,10 @@ func can_interact() -> bool:
 
 func interact():
 	print("Landing on: ", celestial_data.name)
+	
+	# Ensure it's marked as visited (in case interaction happens before range detection)
+	mark_as_visited()
+	
 	UniverseManager.celestial_body_approached.emit(celestial_data)
 	# Here you would transition to planet surface or show services menu
 

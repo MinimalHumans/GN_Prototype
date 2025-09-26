@@ -155,12 +155,22 @@ func create_player_tables(db: SQLite) -> bool:
 		"""
 	]
 	
+	# Add player_visited columns to existing tables
+	var alter_tables = [
+		"ALTER TABLE systems ADD COLUMN player_visited INTEGER DEFAULT 0;",
+		"ALTER TABLE celestial_bodies ADD COLUMN player_visited INTEGER DEFAULT 0;"
+	]
+	
 	for table_sql in tables:
 		if not db.query(table_sql):
 			print("Failed to create table: ", table_sql)
 			return false
 	
-	print("Created player tables successfully")
+	# Add player_visited columns (these will fail silently if columns already exist)
+	for alter_sql in alter_tables:
+		db.query(alter_sql)  # Don't check result - columns might already exist
+	
+	print("Created player tables and added player_visited columns successfully")
 	return true
 
 func initialize_player_data(db: SQLite, save_name: String, timestamp: int) -> bool:

@@ -321,6 +321,9 @@ func change_system(system_id: int):
 	# Update universe_data for HyperspaceMap compatibility (use int keys)
 	universe_data.systems[system_id] = system_data
 	
+	# Mark system as visited
+	mark_system_visited(system_id)
+	
 	# Save current system to player data
 	PlayerData.set_current_system(system_id)
 	
@@ -695,6 +698,90 @@ func remove_mission_from_system(planet_id: int, mission_data: Dictionary):
 		current_system_missions[planet_id] = planet_missions
 
 # =============================================================================
+# PLAYER VISITED TRACKING
+# =============================================================================
+
+func mark_system_visited(system_id: int):
+	"""Mark a system as visited by the player"""
+	if not db:
+		return
+	
+	var update_sql = "UPDATE systems SET player_visited = 1 WHERE id = ?;"
+	db.query_with_bindings(update_sql, [system_id])
+	
+	var system_name = get_system_name(system_id)
+	print("Marked system as visited: ", system_name, " (ID: ", system_id, ")")
+
+func mark_celestial_body_visited(body_id: int):
+	"""Mark a celestial body as visited by the player"""
+	if not db:
+		return
+	
+	var update_sql = "UPDATE celestial_bodies SET player_visited = 1 WHERE id = ?;"
+	db.query_with_bindings(update_sql, [body_id])
+	
+	var body_name = get_body_name(body_id)
+	print("Marked celestial body as visited: ", body_name, " (ID: ", body_id, ")")
+
+func is_system_visited(system_id: int) -> bool:
+	"""Check if a system has been visited by the player"""
+	if not db:
+		return false
+	
+	var query_sql = "SELECT player_visited FROM systems WHERE id = ?;"
+	db.query_with_bindings(query_sql, [system_id])
+	var results = db.query_result
+	
+	if results.is_empty():
+		return false
+	
+	return bool(results[0].player_visited)
+
+func is_celestial_body_visited(body_id: int) -> bool:
+	"""Check if a celestial body has been visited by the player"""
+	if not db:
+		return false
+	
+	var query_sql = "SELECT player_visited FROM celestial_bodies WHERE id = ?;"
+	db.query_with_bindings(query_sql, [body_id])
+	var results = db.query_result
+	
+	if results.is_empty():
+		return false
+	
+	return bool(results[0].player_visited)
+
+func get_visited_systems() -> Array[int]:
+	"""Get array of all visited system IDs"""
+	if not db:
+		return []
+	
+	var query_sql = "SELECT id FROM systems WHERE player_visited = 1;"
+	db.query(query_sql)
+	var results = db.query_result
+	
+	var visited_systems: Array[int] = []
+	for row in results:
+		visited_systems.append(row.id)
+	
+	return visited_systems
+
+func get_visited_celestial_bodies() -> Array[int]:
+	"""Get array of all visited celestial body IDs"""
+	if not db:
+		return []
+	
+	var query_sql = "SELECT id FROM celestial_bodies WHERE player_visited = 1;"
+	db.query(query_sql)
+	var results = db.query_result
+	
+	var visited_bodies: Array[int] = []
+	for row in results:
+		visited_bodies.append(row.id)
+	
+	return visited_bodies
+
+# =============================================================================
 # DEBUG METHODS
 # =============================================================================
 
@@ -710,7 +797,11 @@ func debug_print_current_system():
 	var bodies = system_data.get("celestial_bodies", [])
 	print("Celestial bodies: ", bodies.size())
 	for body in bodies:
-		print("  - ", body.name, " (ID: ", body.id, ")")
+		var visited_status = "✓" if is_celestial_body_visited(body.id) else "○"
+		print("  - ", body.name, " (ID: ", body.id, ") ", visited_status)
+	
+	var system_visited = "✓" if is_system_visited(current_system_id) else "○"
+	print("System visited: ", system_visited)
 	print("===========================")
 
 # =============================================================================
