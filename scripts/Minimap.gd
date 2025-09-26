@@ -8,7 +8,10 @@ class_name Minimap
 @export var minimap_radius: float = 128.0
 @export var zoom_scale: float = 0.1  # Adjust this to fine-tune zoom level
 @export var player_size: float = 4.0
-@export var celestial_body_size: float = 6.0
+@export var base_celestial_body_size: float = 6.0
+@export var scale_multiplier: float = 3.0  # How much to amplify scale differences
+@export var min_body_size: float = 5.0      # Minimum size for tiny bodies
+@export var max_body_size: float = 72.0     # Maximum size for huge bodies
 @export var center_arrow_distance: float = 2000.0  # Distance from (0,0) before showing center arrow
 
 # Colors - matching your game's retro theme
@@ -99,11 +102,29 @@ func draw_celestial_body(body: Node2D, player_pos: Vector2, minimap_center: Vect
 			_:
 				color = planet_color
 	
+	# Calculate size based on celestial body scale from database
+	var body_size = base_celestial_body_size
+	if body.has_method("get") and body.celestial_data.has("scale"):
+		var scale_factor = body.celestial_data.get("scale", 1.0)
+		# Use exponential scaling to make differences more dramatic
+		# This maps 0.035->min_size, 1.0->base_size, 5.0->max_size
+		if scale_factor < 1.0:
+			# Scale down dramatically for small bodies
+			var normalized = scale_factor / 1.0  # 0.035 becomes 0.035
+			body_size = lerp(min_body_size, base_celestial_body_size, pow(normalized, 1.0/scale_multiplier))
+		else:
+			# Scale up dramatically for large bodies  
+			var normalized = (scale_factor - 1.0) / 4.0  # 5.0 becomes 1.0, 1.0 becomes 0.0
+			body_size = lerp(base_celestial_body_size, max_body_size, pow(normalized, 1.0/scale_multiplier))
+		
+		# Final clamp for safety
+		body_size = clamp(body_size, min_body_size, max_body_size)
+	
 	# Draw the celestial body
-	draw_circle(minimap_pos, celestial_body_size, color)
+	draw_circle(minimap_pos, body_size, color)
 	
 	# Draw a small border
-	draw_arc(minimap_pos, celestial_body_size, 0, TAU, 16, border_color, 1.0)
+	draw_arc(minimap_pos, body_size, 0, TAU, 16, border_color, 1.0)
 
 func draw_npc_ships(player_pos: Vector2, minimap_center: Vector2):
 	"""Draw NPC ships as small dots on the minimap"""
