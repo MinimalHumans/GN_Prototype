@@ -36,7 +36,7 @@ func _ready():
 	find_player_ship()
 	
 	# Find celestial bodies
-	find_celestial_bodies()
+	call_deferred("find_celestial_bodies")
 	
 	# Connect to system changes
 	UniverseManager.system_changed.connect(_on_system_changed)
