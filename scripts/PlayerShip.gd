@@ -657,8 +657,7 @@ func show_planet_landing_ui():
 	print("✅ Planet landing UI displayed")
 
 func find_nearby_landable_planet() -> Node:
-	"""Find a landable planet within reasonable distance"""
-	var search_radius = 300.0  # Generous search radius
+	"""Find a landable planet"""
 	var system_scene = get_tree().get_first_node_in_group("system_scene")
 	if not system_scene:
 		return null
@@ -668,21 +667,25 @@ func find_nearby_landable_planet() -> Node:
 		return null
 	
 	var closest_planet = null
-	var closest_distance = search_radius
+	var closest_distance = INF
 	
 	for body in celestial_container.get_children():
 		if body.has_method("can_interact") and body.can_interact():
-			var distance = global_position.distance_to(body.global_position)
-			print("Distance to ", body.celestial_data.get("name", "Unknown"), ": ", round(distance))
-			
-			if distance < closest_distance:
-				closest_distance = distance
-				closest_planet = body
+			# Check if player is within this body's interaction area
+			var interaction_area = body.get_node_or_null("InteractionArea")
+			if interaction_area:
+				var overlapping_bodies = interaction_area.get_overlapping_bodies()
+				if self in overlapping_bodies:
+					# Player is within interaction area - check if it's the closest
+					var distance = global_position.distance_to(body.global_position)
+					if distance < closest_distance:
+						closest_distance = distance
+						closest_planet = body
 	
 	if closest_planet:
-		print("Closest landable planet: ", closest_planet.celestial_data.get("name", "Unknown"), " at distance ", round(closest_distance))
+		print("Found landable planet: ", closest_planet.celestial_data.get("name", "Unknown"))
 	else:
-		print("No landable planets within ", search_radius, " units")
+		print("No landable planets within interaction range")
 	
 	return closest_planet
 
