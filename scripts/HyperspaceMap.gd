@@ -16,6 +16,7 @@ var systems_data: Dictionary = {}  # int -> system_data
 var system_connections: Dictionary = {}  # int -> Array[int]
 var selected_system_id: int = -1
 var current_system_id: int = -1
+var visible_systems: Array[int] = []
 
 # Zoom/Pan system (adapted from test)
 var zoom_level: float = 1.0
@@ -91,31 +92,37 @@ func setup_map_canvas():
 	print("Map canvas created")
 
 func load_systems_from_database():
-	"""Load all systems and connections from SQLite database"""
+	"""Load player_visited systems and connections from SQLite database"""
 	print("Loading systems from SQLite database...")
 	
 	if not UniverseManager.db:
 		push_error("Database not available!")
 		return
 	
-	# Load all systems with their visual properties
-	var systems_query = """
-		SELECT 
-			id, name, x, y, map_size, map_color, is_hub, 
-			population, flavor_text
-		FROM systems 
-		ORDER BY name;
-	"""
-	
-	UniverseManager.db.query(systems_query)
-	var systems_results = UniverseManager.db.query_result
+	# Get systems that should be visible on the map
+	visible_systems = UniverseManager.get_visible_systems_for_map()
+	print("Visible systems: ", visible_systems.size())
 	
 	systems_data.clear()
 	system_connections.clear()
 	
-	# Process each system
-	for system_row in systems_results:
-		var system_id = system_row.id
+	# Load only visible systems with their visual properties
+	for system_id in visible_systems:
+		var systems_query = """
+			SELECT 
+				id, name, x, y, map_size, map_color, is_hub, 
+				population, flavor_text
+			FROM systems 
+			WHERE id = ?;
+		"""
+		
+		UniverseManager.db.query_with_bindings(systems_query, [system_id])
+		var systems_results = UniverseManager.db.query_result
+		
+		if systems_results.is_empty():
+			continue
+		
+		var system_row = systems_results[0]
 		
 		var system_data = {
 			"id": system_id,
@@ -131,8 +138,8 @@ func load_systems_from_database():
 		
 		systems_data[system_id] = system_data
 		
-		# Load connections for this system
-		system_connections[system_id] = load_system_connections(system_id)
+		# Load connections for this system (filtered to visible systems only)
+		system_connections[system_id] = load_system_connections_filtered(system_id)
 	
 	print("Loaded ", systems_data.size(), " systems from database")
 	calculate_coordinate_bounds()
@@ -178,6 +185,23 @@ func load_system_connections(system_id: int) -> Array[int]:
 			connection_set[source_id] = true
 	
 	return connections
+
+func load_system_connections_filtered(system_id: int) -> Array[int]:
+	"""Load connections for a system, including partial connections from visited systems"""
+	var all_connections = load_system_connections(system_id)
+	var filtered_connections: Array[int] = []
+	
+	# If this system is visited, show all its connections (even to unvisited systems)
+	if UniverseManager.is_system_visited(system_id):
+		for connected_id in all_connections:
+			filtered_connections.append(connected_id)
+	else:
+		# If this system is not visited, only show connections to visited systems
+		for connected_id in all_connections:
+			if connected_id in visible_systems and UniverseManager.is_system_visited(connected_id):
+				filtered_connections.append(connected_id)
+	
+	return filtered_connections
 
 func calculate_coordinate_bounds():
 	"""Calculate bounds of all system coordinates"""
@@ -228,13 +252,42 @@ func load_delivery_destinations():
 
 
 func setup_initial_view():
-	"""Set up initial view to show all systems"""
-	if systems_data.is_empty():
+	"""Set up initial view"""
+	if systems_data.is_empty() or current_system_id == -1:
 		return
 	
 	await get_tree().process_frame  # Wait for canvas to be ready
 	
 	if not map_canvas:
+		return
+	
+	var canvas_size = map_canvas.size
+	if canvas_size.x <= 0 or canvas_size.y <= 0:
+		return
+	
+	# Get current system position
+	if not systems_data.has(current_system_id):
+		# Fallback to fit all systems if current system not found
+		setup_fit_all_view()
+		return
+	
+	var current_system = systems_data[current_system_id]
+	var current_world_pos = Vector2(current_system.x, current_system.y)
+	
+	# Set a reasonable zoom level
+	zoom_level = 0.8
+	
+	# Center the map on current system
+	var viewport_center = canvas_size / 2
+	var current_screen_pos = Vector2(current_world_pos.x, -current_world_pos.y) * zoom_level
+	pan_offset = viewport_center - current_screen_pos
+	
+	print("Initial view centered on current system - Zoom: ", zoom_level, " Pan: ", pan_offset)
+	queue_redraw()
+
+func setup_fit_all_view():
+	"""Fallback method to fit all visible systems"""
+	if systems_data.is_empty():
 		return
 	
 	var canvas_size = map_canvas.size
@@ -255,8 +308,6 @@ func setup_initial_view():
 	)
 	
 	pan_offset = viewport_center - map_center * zoom_level
-	
-	print("Initial view - Zoom: ", zoom_level, " Pan: ", pan_offset)
 	queue_redraw()
 
 func _draw_map():
@@ -278,7 +329,9 @@ func _draw_map():
 	draw_instructions(canvas_size)
 
 func draw_connections():
-	"""Draw hyperspace connections between systems"""
+	"""Draw hyperspace connections between systems with different colors based on visited status"""
+	var drawn_connections = {}  # Track drawn connections to avoid duplicates
+	
 	for system_id in system_connections:
 		if not systems_data.has(system_id):
 			continue
@@ -292,11 +345,39 @@ func draw_connections():
 		
 		var connections = system_connections[system_id]
 		for connected_id in connections:
-			if not systems_data.has(connected_id):
+			# Create connection key to avoid drawing the same connection twice
+			var connection_key = str(min(system_id, connected_id)) + ":" + str(max(system_id, connected_id))
+			if drawn_connections.has(connection_key):
 				continue
-				
-			var connected_data = systems_data[connected_id]
-			var connected_screen_pos = world_to_screen(Vector2(connected_data.x, connected_data.y))
+			drawn_connections[connection_key] = true
+			
+			var system_visited = UniverseManager.is_system_visited(system_id)
+			var connected_visited = UniverseManager.is_system_visited(connected_id)
+			
+			# Determine connection color and whether to draw
+			var should_draw = false
+			var line_color = connection_color
+			
+			if system_visited and connected_visited:
+				# Both systems visited - green connection
+				should_draw = true
+				line_color = connection_color
+			elif system_visited or connected_visited:
+				# Only one system visited - gray connection
+				should_draw = true
+				line_color = Color(0.5, 0.5, 0.5, 0.6)
+			
+			if not should_draw:
+				continue
+			
+			# Get connected system position (may not be in systems_data if unvisited)
+			var connected_screen_pos: Vector2
+			if systems_data.has(connected_id):
+				var connected_data = systems_data[connected_id]
+				connected_screen_pos = world_to_screen(Vector2(connected_data.x, connected_data.y))
+			else:
+				# Get position from database for unvisited system
+				connected_screen_pos = get_system_screen_position(connected_id)
 			
 			# Skip if connection is completely off screen
 			if not is_line_on_screen(system_screen_pos, connected_screen_pos):
@@ -304,7 +385,7 @@ func draw_connections():
 			
 			# Draw connection line
 			var width = connection_width * max(0.5, zoom_level)
-			map_canvas.draw_line(system_screen_pos, connected_screen_pos, connection_color, width)
+			map_canvas.draw_line(system_screen_pos, connected_screen_pos, line_color, width)
 
 func draw_systems():
 	"""Draw all star systems"""
@@ -322,13 +403,23 @@ func draw_systems():
 		var final_radius = base_radius
 		var final_color = get_system_color(system_data)
 		
-		# Apply selection highlighting
+		# Check if system is visited and has missions
+		var is_visited = UniverseManager.is_system_visited(system_id)
+		var has_missions = delivery_destinations.has(system_id)
+		
+		# Apply selection highlighting and visited status
 		if system_id == current_system_id:
 			final_color = current_system_color
 			final_radius *= 1.2
 		elif system_id == selected_system_id:
 			final_color = selected_system_color
 			final_radius *= 1.1
+		elif has_missions and not is_visited:
+			# Unvisited systems with missions are highlighted in orange
+			final_color = Color(1.0, 0.6, 0.0, 0.9)
+		elif not is_visited:
+			# Unvisited systems (adjacent to current) are dimmed
+			final_color = Color(0.5, 0.5, 0.5, 0.8)
 		elif not can_travel_to(system_id):
 			final_color = unavailable_color
 		
@@ -339,9 +430,12 @@ func draw_systems():
 		if system_data.is_hub:
 			map_canvas.draw_arc(screen_pos, final_radius + 2, 0, TAU, 32, Color.WHITE, 2.0)
 		
-		# NEW: Draw delivery indicators
-		draw_delivery_indicators(screen_pos, final_radius, system_id)
+		# Draw current system triangle indicator
+		if system_id == current_system_id:
+			draw_current_system_triangle(screen_pos, final_radius)
 		
+		# Draw delivery indicators
+		draw_delivery_indicators(screen_pos, final_radius, system_id)
 		
 		# Draw system name if zoomed in enough
 		if zoom_level > 0.5:
@@ -409,6 +503,25 @@ func draw_delivery_count_badge(icon_pos: Vector2, count: int, icon_size: float):
 	# Draw number
 	map_canvas.draw_string(font, text_pos, count_text, HORIZONTAL_ALIGNMENT_CENTER, -1, font_size, Color.WHITE)
 
+func draw_current_system_triangle(screen_pos: Vector2, system_radius: float):
+	"""Draw a triangle indicator pointing to the current system"""
+	var triangle_size = 12
+	var triangle_offset = Vector2(0, -system_radius - triangle_size - 8)
+	var triangle_center = screen_pos + triangle_offset
+	
+	# Create triangle points (pointing down towards the system)
+	var triangle_points = PackedVector2Array([
+		triangle_center + Vector2(0, triangle_size),           # Bottom point (pointing to system)
+		triangle_center + Vector2(-triangle_size * 0.8, -triangle_size * 0.5),  # Top left
+		triangle_center + Vector2(triangle_size * 0.8, -triangle_size * 0.5)    # Top right
+	])
+	
+	# Draw filled triangle
+	map_canvas.draw_colored_polygon(triangle_points, current_system_color)
+	
+	# Draw triangle outline
+	map_canvas.draw_polyline(triangle_points + PackedVector2Array([triangle_points[0]]), Color.WHITE, 2.0)
+
 
 
 func draw_system_label(screen_pos: Vector2, system_name: String, radius: float):
@@ -430,8 +543,8 @@ func draw_system_label(screen_pos: Vector2, system_name: String, radius: float):
 func draw_instructions(canvas_size: Vector2):
 	"""Draw control instructions with delivery legend"""
 	var font = ThemeDB.fallback_font
-	var instruction_text = "Scroll: Zoom | Left+Drag/Right+Drag: Pan | Left Click: Select | F: Fit View | +/-: Zoom | 0: Reset"
-	var font_size = 11  # Slightly smaller to fit more text
+	var instruction_text = "Scroll: Zoom | Left+Drag/Right+Drag: Pan | Left Click: Select | F: Fit View | C: Center Current | +/-: Zoom | 0: Reset"
+	var font_size = 10
 	var instruction_size = font.get_string_size(instruction_text, HORIZONTAL_ALIGNMENT_CENTER, -1, font_size)
 	var instruction_pos = Vector2((canvas_size.x - instruction_size.x) / 2, canvas_size.y - 45)
 	
@@ -447,13 +560,13 @@ func draw_instructions(canvas_size: Vector2):
 	map_canvas.draw_string(font, trackpad_pos + Vector2(1, 1), trackpad_text, HORIZONTAL_ALIGNMENT_CENTER, -1, 10, Color.BLACK)
 	map_canvas.draw_string(font, trackpad_pos, trackpad_text, HORIZONTAL_ALIGNMENT_CENTER, -1, 10, Color.CYAN)
 	
-	# Draw delivery legend
-	var legend_text = "Cyan Ring = Active Deliveries"
-	var legend_size = font.get_string_size(legend_text, HORIZONTAL_ALIGNMENT_CENTER, -1, 10)
+	# Draw legend
+	var legend_text = "Triangle = Current | Gray = Unvisited | Orange = Mission Target | Green Lines = Known Routes | Gray Lines = Partial Routes"
+	var legend_size = font.get_string_size(legend_text, HORIZONTAL_ALIGNMENT_CENTER, -1, 9)
 	var legend_pos = Vector2((canvas_size.x - legend_size.x) / 2, canvas_size.y - 15)
 	
-	map_canvas.draw_string(font, legend_pos + Vector2(1, 1), legend_text, HORIZONTAL_ALIGNMENT_CENTER, -1, 10, Color.BLACK)
-	map_canvas.draw_string(font, legend_pos, legend_text, HORIZONTAL_ALIGNMENT_CENTER, -1, 10, delivery_ring_color)
+	map_canvas.draw_string(font, legend_pos + Vector2(1, 1), legend_text, HORIZONTAL_ALIGNMENT_CENTER, -1, 9, Color.BLACK)
+	map_canvas.draw_string(font, legend_pos, legend_text, HORIZONTAL_ALIGNMENT_CENTER, -1, 9, Color.WHITE)
 
 
 # Add method to refresh delivery data when missions change
@@ -651,6 +764,22 @@ func is_line_on_screen(p1: Vector2, p2: Vector2, margin: float = 100) -> bool:
 	return screen_rect.has_point(p1) or screen_rect.has_point(p2) or \
 		   (p1.x < 0 and p2.x > canvas_size.x) or (p1.y < 0 and p2.y > canvas_size.y)
 
+func get_system_screen_position(system_id: int) -> Vector2:
+	"""Get screen position for a system that may not be in systems_data"""
+	var systems_query = """
+		SELECT x, y FROM systems WHERE id = ?;
+	"""
+	
+	UniverseManager.db.query_with_bindings(systems_query, [system_id])
+	var results = UniverseManager.db.query_result
+	
+	if results.is_empty():
+		return Vector2.ZERO
+	
+	var system_row = results[0]
+	var world_pos = Vector2(float(system_row.x), float(system_row.y))
+	return world_to_screen(world_pos)
+
 # =============================================================================
 # SYSTEM SELECTION & UI (existing functionality)
 # =============================================================================
@@ -671,7 +800,7 @@ func update_ui():
 	if selected_system_id == -1:
 		info_label.text = "Select a destination system"
 		jump_button.disabled = true
-		flavor_text = "Navigate the galaxy using the hyperspace network.\n\nSystems with cyan rings have active delivery missions.\n\nUse mouse wheel to zoom and middle-click + drag to pan around the map."
+		flavor_text = "Navigate the galaxy using the hyperspace network.\n\nVisible systems: visited systems, adjacent systems, and mission destinations.\nGray systems are unvisited but reachable.\nOrange systems have active missions but are unvisited.\nTriangle indicates your current location.\n\nConnections only shown between discovered systems.\nSystems with cyan rings have active delivery missions.\n\nUse mouse wheel to zoom and middle-click + drag to pan around the map."
 	elif selected_system_id == current_system_id:
 		var system_name = get_system_name(selected_system_id)
 		info_label.text = "Current location: " + system_name
@@ -679,7 +808,9 @@ func update_ui():
 		flavor_text = get_system_flavor(selected_system_id)
 	elif can_travel_to(selected_system_id):
 		var system_name = get_system_name(selected_system_id)
-		info_label.text = "Jump to: " + system_name
+		var is_visited = UniverseManager.is_system_visited(selected_system_id)
+		var visit_status = " (Visited)" if is_visited else " (Unvisited)"
+		info_label.text = "Jump to: " + system_name + visit_status
 		jump_button.disabled = false
 		flavor_text = get_system_flavor(selected_system_id)
 		
@@ -691,7 +822,9 @@ func update_ui():
 			flavor_text += delivery_text
 	else:
 		var system_name = get_system_name(selected_system_id)
-		info_label.text = system_name + " - Not accessible"
+		var is_visited = UniverseManager.is_system_visited(selected_system_id)
+		var visit_status = " (Visited)" if is_visited else " (Unvisited)"
+		info_label.text = system_name + visit_status + " - Not accessible"
 		jump_button.disabled = true
 		flavor_text = get_system_flavor(selected_system_id)
 		
@@ -792,16 +925,38 @@ func _input(event):
 			KEY_F:  # F to fit all systems (like "fit to view")
 				fit_all_systems()
 				get_viewport().set_input_as_handled()
+			KEY_C:  # C to center on current system
+				center_on_current_system()
+				get_viewport().set_input_as_handled()
 				
 func reset_view():
-	"""Reset zoom and pan to initial state"""
+	"""Reset zoom and pan to initial state (centered on current system)"""
 	setup_initial_view()
 	if map_canvas:
 		map_canvas.queue_redraw()
 
 func fit_all_systems():
-	"""Fit all systems in view (same as initial setup but can be called anytime)"""
-	setup_initial_view()
+	"""Fit all visible systems in view"""
+	setup_fit_all_view()
+	if map_canvas:
+		map_canvas.queue_redraw()
+
+func center_on_current_system():
+	"""Center the view on the current system"""
+	if current_system_id == -1 or not systems_data.has(current_system_id):
+		return
+	
+	var current_system = systems_data[current_system_id]
+	var current_world_pos = Vector2(current_system.x, current_system.y)
+	
+	if not map_canvas:
+		return
+	
+	var canvas_size = map_canvas.size
+	var viewport_center = canvas_size / 2
+	var current_screen_pos = Vector2(current_world_pos.x, -current_world_pos.y) * zoom_level
+	pan_offset = viewport_center - current_screen_pos
+	
 	if map_canvas:
 		map_canvas.queue_redraw()
 

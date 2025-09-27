@@ -766,6 +766,55 @@ func get_visited_systems() -> Array[int]:
 	
 	return visited_systems
 
+func get_adjacent_systems(system_id: int) -> Array[int]:
+	"""Get systems that are one jump away from the given system"""
+	if not connection_graph.has(system_id):
+		var empty_result: Array[int] = []
+		return empty_result
+	
+	var connections = connection_graph[system_id]
+	var result: Array[int] = []
+	for system_id_conn in connections:
+		result.append(system_id_conn)
+	return result
+
+func get_visible_systems_for_map() -> Array[int]:
+	"""Get systems that should be visible on hyperspace map (visited + adjacent to current + systems with missions)"""
+	var visible_systems: Array[int] = []
+	var visited_systems = get_visited_systems()
+	
+	# Add all visited systems
+	for system_id in visited_systems:
+		if system_id not in visible_systems:
+			visible_systems.append(system_id)
+	
+	# Add systems adjacent to current system (even if not visited)
+	if current_system_id != -1:
+		var adjacent_systems = get_adjacent_systems(current_system_id)
+		for system_id in adjacent_systems:
+			if system_id not in visible_systems:
+				visible_systems.append(system_id)
+	
+	# Add systems that have active delivery missions (even if not visited or adjacent)
+	var mission_systems = get_systems_with_active_missions()
+	for system_id in mission_systems:
+		if system_id not in visible_systems:
+			visible_systems.append(system_id)
+	
+	return visible_systems
+
+func get_systems_with_active_missions() -> Array[int]:
+	"""Get systems that have active delivery missions"""
+	var mission_systems: Array[int] = []
+	var active_missions = PlayerData.get_active_missions()
+	
+	for mission in active_missions:
+		var destination_system_id = mission.get("destination_system", -1)
+		if destination_system_id != -1 and destination_system_id not in mission_systems:
+			mission_systems.append(destination_system_id)
+	
+	return mission_systems
+
 func get_visited_celestial_bodies() -> Array[int]:
 	"""Get array of all visited celestial body IDs"""
 	if not db:
